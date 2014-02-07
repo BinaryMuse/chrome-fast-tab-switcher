@@ -19,6 +19,22 @@ chrome.tabs.onActivated.addListener(function(_arg) {
 
 chrome.commands.onCommand.addListener(function(command) {
   if (command === "show-tab-switcher") {
+    chrome.windows.getCurrent(function(currentWindow) {
+      var width, windowOpts;
+      width = currentWindow.width - 200;
+      width = Math.min(600, width);
+      windowOpts = {
+        url: chrome.runtime.getURL('src/html/test.html'),
+        left: currentWindow.left + (currentWindow.width - width) / 2,
+        top: currentWindow.top + 50,
+        width: width,
+        height: currentWindow.height - 100,
+        focused: true,
+        type: 'popup'
+      };
+      return chrome.windows.create(windowOpts, function(window) {});
+    });
+    return;
     return chrome.tabs.query({
       active: true,
       currentWindow: true
