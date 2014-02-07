@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Fast Tab Switcher",
   "description": "Quickly switch to other open tabs with just your keyboard",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "icons": {
     "16": "src/img/icon16.png",
     "48": "src/img/icon48.png",
@@ -14,7 +14,7 @@
   "commands": {
     "show-tab-switcher": {
       "suggested_key": {
-        "default": "Ctrl+Shift+P"
+        "default": "Alt+Shift+T"
       },
       "description": "Show the Fast Tab Switcher"
     }

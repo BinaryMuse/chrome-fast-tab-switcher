@@ -14,7 +14,7 @@ Installation
 Usage
 -----
 
-The default keyboard shortcut is `Ctrl+Shift+P` (`Cmd+Shift+P` on OS X). You may need to adjust your keyboard shortcuts at the bottom of your Chrome extensions page at `chrome://extensions`.
+The default keyboard shortcut is `Alt+Shift+T` (`Opt+Shift+T` on OS X). You can, and may need to, adjust your keyboard shortcuts via the link at the very bottom of your Chrome extensions page at `chrome://extensions`.
 
 Hacking
 -------
