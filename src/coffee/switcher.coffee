@@ -188,7 +188,7 @@ class SwitcherView
     @list = @tmpl.find('ul')
     @input = @tmpl.find('input')
 
-    @input.on 'keyup', @handleInputKeyup
+    @input.on 'keydown', @handleInputKey
     @host.on 'click', (evt) ->
       evt.stopPropagation()
 
@@ -202,7 +202,7 @@ class SwitcherView
       @list.children().removeClass('selected')
       $(@list.children().get(index)).addClass('selected')
 
-  handleInputKeyup: (evt) =>
+  handleInputKey: (evt) =>
     switch evt.which
       when KEY_ESC
         @hide()
@@ -212,8 +212,10 @@ class SwitcherView
         chrome.runtime.sendMessage switchToTabId: tab.id
       when KEY_UP
         @model.setSelected Math.max(0, @model.selected - 1)
+        evt.preventDefault()
       when KEY_DOWN
         @model.setSelected Math.min(@model.tabs.length - 1, @model.selected + 1)
+        evt.preventDefault()
       else
         current = $(evt.target).val()
         if current != @lastInput

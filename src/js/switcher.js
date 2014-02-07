@@ -169,7 +169,7 @@ SwitcherView = (function() {
     this.model = model;
     this.hide = __bind(this.hide, this);
     this.show = __bind(this.show, this);
-    this.handleInputKeyup = __bind(this.handleInputKeyup, this);
+    this.handleInputKey = __bind(this.handleInputKey, this);
     _ref = [], this.list = _ref[0], this.input = _ref[1];
     this.host = $('<div>').attr('reset-style-inheritance', true).appendTo('body');
     shadow = this.host[0].createShadowRoot ? this.host[0].createShadowRoot() : this.host[0].webkitCreateShadowRoot();
@@ -178,7 +178,7 @@ SwitcherView = (function() {
     this.container = this.tmpl.find('.container');
     this.list = this.tmpl.find('ul');
     this.input = this.tmpl.find('input');
-    this.input.on('keyup', this.handleInputKeyup);
+    this.input.on('keydown', this.handleInputKey);
     this.host.on('click', function(evt) {
       return evt.stopPropagation();
     });
@@ -201,7 +201,7 @@ SwitcherView = (function() {
     })(this));
   }
 
-  SwitcherView.prototype.handleInputKeyup = function(evt) {
+  SwitcherView.prototype.handleInputKey = function(evt) {
     var current, tab;
     switch (evt.which) {
       case KEY_ESC:
@@ -216,9 +216,11 @@ SwitcherView = (function() {
         break;
       case KEY_UP:
         this.model.setSelected(Math.max(0, this.model.selected - 1));
+        evt.preventDefault();
         break;
       case KEY_DOWN:
         this.model.setSelected(Math.min(this.model.tabs.length - 1, this.model.selected + 1));
+        evt.preventDefault();
         break;
       default:
         current = $(evt.target).val();
