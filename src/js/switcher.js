@@ -242,7 +242,10 @@ SwitcherView = (function() {
     this.input.on('keydown.switcherBlocker', function(evt) {
       return evt.stopPropagation();
     });
-    return this.input.on('keyup.switcherBlocker', function(evt) {
+    this.input.on('keyup.switcherBlocker', function(evt) {
+      return evt.stopPropagation();
+    });
+    return this.input.on('keypress.switcherBlocker', function(evt) {
       return evt.stopPropagation();
     });
   };
@@ -251,6 +254,7 @@ SwitcherView = (function() {
     $(document).off('click.switcher');
     this.input.off('keydown.switcherBlocker');
     this.input.off('keyup.switcherBlocker');
+    this.input.off('keypress.switcherBlocker');
     this.tmpl.detach();
     this.input.val('');
     return this.lastInput = '';

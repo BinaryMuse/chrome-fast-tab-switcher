@@ -232,11 +232,13 @@ class SwitcherView
     $(document).on 'click.switcher', @hide
     @input.on 'keydown.switcherBlocker', (evt) -> evt.stopPropagation()
     @input.on 'keyup.switcherBlocker', (evt) -> evt.stopPropagation()
+    @input.on 'keypress.switcherBlocker', (evt) -> evt.stopPropagation()
 
   hide: =>
     $(document).off 'click.switcher'
     @input.off 'keydown.switcherBlocker'
     @input.off 'keyup.switcherBlocker'
+    @input.off 'keypress.switcherBlocker'
     @tmpl.detach()
     @input.val('')
     @lastInput = ''
