@@ -171,7 +171,7 @@ SwitcherView = (function() {
     this.show = __bind(this.show, this);
     this.handleInputKeyup = __bind(this.handleInputKeyup, this);
     _ref = [], this.list = _ref[0], this.input = _ref[1];
-    this.host = $('<div>').attr('id', 'chrome-extension-quick-tab-switcher').attr('reset-style-inheritance', true).appendTo('body');
+    this.host = $('<div>').attr('reset-style-inheritance', true).appendTo('body');
     shadow = this.host[0].createShadowRoot ? this.host[0].createShadowRoot() : this.host[0].webkitCreateShadowRoot();
     this.element = $(shadow);
     this.tmpl = $(template);

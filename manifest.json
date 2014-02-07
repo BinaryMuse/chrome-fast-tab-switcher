@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Quick Tab Switcher",
+  "name": "Fast Tab Switcher",
   "description": "Quickly switch to other open tabs with just your keyboard",
   "version": "0.1.0",
   "icons": {
@@ -16,7 +16,7 @@
       "suggested_key": {
         "default": "Ctrl+Shift+P"
       },
-      "description": "Show the Quick Tab Switcher"
+      "description": "Show the Fast Tab Switcher"
     }
   },
   "background": {
@@ -26,8 +26,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["vendor/js/jquery.js", "vendor/js/fuzzy.js", "src/js/switcher.js"],
-      "css": ["src/css/switcher.css"]
+      "js": ["vendor/js/jquery.js", "vendor/js/fuzzy.js", "src/js/switcher.js"]
     }
   ],
   "web_accessible_resources": [

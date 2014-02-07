@@ -179,7 +179,7 @@ class SwitcherView
   constructor: (@model) ->
     [@list, @input] = []
 
-    @host = $('<div>').attr('id', 'chrome-extension-quick-tab-switcher').attr('reset-style-inheritance', true).appendTo('body')
+    @host = $('<div>').attr('reset-style-inheritance', true).appendTo('body')
     shadow = if @host[0].createShadowRoot then @host[0].createShadowRoot() else @host[0].webkitCreateShadowRoot()
     @element = $(shadow)
 
