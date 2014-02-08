@@ -37,7 +37,7 @@ chrome.commands.onCommand.addListener (command) ->
       width = Math.min(600, width)
 
       windowOpts =
-        url: chrome.runtime.getURL('src/html/test.html')
+        url: chrome.runtime.getURL('src/html/switcher.html')
         left: Math.max(0, currentWindow.left + Math.round((currentWindow.width - switcherWidth) / 2))
         top: Math.max(0, currentWindow.top + paddingTop)
         width: switcherWidth
