@@ -10,12 +10,14 @@ template = """
     z-index: 9999999;
     left: 50%;
     top: 25px;
+    max-height: calc(100% - 50px);
     margin-left: -300px;
     border: 1px solid black;
     border-radius: 4px;
     background: #eee;
     box-shadow: #ccc 0 0 10px;
     padding: 7px;
+    overflow-y: auto;
   }
 
   .container input[type=text] {
@@ -36,7 +38,7 @@ template = """
     list-style: none;
     padding-left: 0;
     white-space: nowrap;
-    overflow: hidden;
+    overflow-x: hidden;
     text-overflow: ellipsis;
     margin: 10px -7px 0 -7px;
   }
