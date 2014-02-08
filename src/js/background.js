@@ -102,6 +102,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
     return chrome.tabs.query(options, function(tabs) {
       var data;
+      tabs = tabs.filter(function(tab) {
+        return tab.id !== sender.tab.id;
+      });
       data = {
         tabs: tabs,
         lastActive: (lastTabs[lastWindow.id] || [])[0]

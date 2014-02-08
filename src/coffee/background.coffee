@@ -55,6 +55,7 @@ chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
     options = {}
     options.windowId = lastWindow.id unless request.searchAllWindows
     chrome.tabs.query options, (tabs) ->
+      tabs = tabs.filter (tab) -> tab.id != sender.tab.id
       data =
         tabs: tabs
         lastActive: (lastTabs[lastWindow.id] || [])[0]
