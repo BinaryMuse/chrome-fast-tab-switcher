@@ -169,7 +169,8 @@ SwitcherView = (function() {
     this.model = model;
     this.hide = __bind(this.hide, this);
     this.show = __bind(this.show, this);
-    this.handleInputKey = __bind(this.handleInputKey, this);
+    this.handleInputKeyUp = __bind(this.handleInputKeyUp, this);
+    this.handleInputKeyDown = __bind(this.handleInputKeyDown, this);
     _ref = [], this.list = _ref[0], this.input = _ref[1];
     this.host = $('<div>').attr('reset-style-inheritance', true).appendTo('body');
     shadow = this.host[0].createShadowRoot ? this.host[0].createShadowRoot() : this.host[0].webkitCreateShadowRoot();
@@ -178,7 +179,8 @@ SwitcherView = (function() {
     this.container = this.tmpl.find('.container');
     this.list = this.tmpl.find('ul');
     this.input = this.tmpl.find('input');
-    this.input.on('keydown', this.handleInputKey);
+    this.input.on('keydown', this.handleInputKeyDown);
+    this.input.on('keyup', this.handleInputKeyUp);
     this.host.on('click', function(evt) {
       return evt.stopPropagation();
     });
@@ -201,8 +203,8 @@ SwitcherView = (function() {
     })(this));
   }
 
-  SwitcherView.prototype.handleInputKey = function(evt) {
-    var current, tab;
+  SwitcherView.prototype.handleInputKeyDown = function(evt) {
+    var tab;
     switch (evt.which) {
       case KEY_ESC:
         this.hide();
@@ -221,17 +223,23 @@ SwitcherView = (function() {
       case KEY_DOWN:
         this.model.setSelected(Math.min(this.model.tabs.length - 1, this.model.selected + 1));
         evt.preventDefault();
-        break;
-      default:
-        current = $(evt.target).val();
-        if (current !== this.lastInput) {
-          if (current) {
-            this.model.filterTabs(current);
-          } else {
-            this.model.resetFilter();
-          }
-          this.lastInput = current;
-        }
+    }
+    return null;
+  };
+
+  SwitcherView.prototype.handleInputKeyUp = function(evt) {
+    var current, _ref;
+    if ((_ref = evt.which) === KEY_ESC || _ref === KEY_ENTER || _ref === KEY_UP || _ref === KEY_DOWN) {
+      return;
+    }
+    current = $(evt.target).val();
+    if (current !== this.lastInput) {
+      if (current) {
+        this.model.filterTabs(current);
+      } else {
+        this.model.resetFilter();
+      }
+      this.lastInput = current;
     }
     return null;
   };

@@ -188,7 +188,8 @@ class SwitcherView
     @list = @tmpl.find('ul')
     @input = @tmpl.find('input')
 
-    @input.on 'keydown', @handleInputKey
+    @input.on 'keydown', @handleInputKeyDown
+    @input.on 'keyup', @handleInputKeyUp
     @host.on 'click', (evt) ->
       evt.stopPropagation()
 
@@ -202,7 +203,7 @@ class SwitcherView
       @list.children().removeClass('selected')
       $(@list.children().get(index)).addClass('selected')
 
-  handleInputKey: (evt) =>
+  handleInputKeyDown: (evt) =>
     switch evt.which
       when KEY_ESC
         @hide()
@@ -216,14 +217,19 @@ class SwitcherView
       when KEY_DOWN
         @model.setSelected Math.min(@model.tabs.length - 1, @model.selected + 1)
         evt.preventDefault()
+
+    null
+
+  handleInputKeyUp: (evt) =>
+    return if evt.which in [KEY_ESC, KEY_ENTER, KEY_UP, KEY_DOWN]
+
+    current = $(evt.target).val()
+    if current != @lastInput
+      if current
+        @model.filterTabs current
       else
-        current = $(evt.target).val()
-        if current != @lastInput
-          if current
-            @model.filterTabs current
-          else
-            @model.resetFilter()
-          @lastInput = current
+        @model.resetFilter()
+      @lastInput = current
 
     null
 
