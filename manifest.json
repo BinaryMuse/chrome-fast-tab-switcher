@@ -9,7 +9,7 @@
     "128": "src/img/icon128.png"
   },
   "permissions": [
-    "tabs"
+    "tabs", "storage"
   ],
   "commands": {
     "show-tab-switcher": {
