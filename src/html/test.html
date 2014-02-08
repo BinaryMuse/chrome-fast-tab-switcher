@@ -8,6 +8,7 @@
   <style>
     * {
       box-sizing: border-box;
+      font-family: Arial, sans-serif;
     }
 
     body {
@@ -50,7 +51,6 @@
     ul li {
       margin-left: 0;
       font-size: 15px;
-      font-family: Arial, sans-serif;
       padding: 7px;
       border-bottom: 1px solid #333;
       cursor: pointer;
@@ -71,6 +71,7 @@
 
     ul li .match {
       text-decoration: underline;
+      font-weight: bold;
     }
 
     ul li .url {
@@ -94,6 +95,10 @@
 <body>
   <input type='text'>
   <ul></ul>
-  <div class='status'>No keyboard shortcut set</div>
+  <div class='status'>
+    <label>
+      <input type='checkbox' value='1'> Show tabs from all windows
+    </label>
+  </div>
 </body>
 </html>

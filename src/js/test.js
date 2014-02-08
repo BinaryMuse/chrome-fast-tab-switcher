@@ -15,16 +15,45 @@ SwitcherModel = (function() {
     this.activeSelected = __bind(this.activeSelected, this);
     this.resetFilter = __bind(this.resetFilter, this);
     this.filterTabs = __bind(this.filterTabs, this);
+    this.setSearchAllWindows = __bind(this.setSearchAllWindows, this);
     this.setSelected = __bind(this.setSelected, this);
     this.setTabs = __bind(this.setTabs, this);
     this.onSelectedChange = __bind(this.onSelectedChange, this);
     this.onTabsChange = __bind(this.onTabsChange, this);
-    var selected, tabs;
+    this.fetchTabs = __bind(this.fetchTabs, this);
+    var searchAllWindows, selected, tabs;
     tabs = [];
     selected = 0;
+    searchAllWindows = localStorage.getItem('searchAllWindows');
+    this.searchAllWindows = searchAllWindows ? JSON.parse(searchAllWindows) : false;
     this._tabsChangeCallbacks = [];
     this._selectedChangeCallbacks = [];
+    this._nextFetchListeners = [];
+    chrome.runtime.onMessage.addListener((function(_this) {
+      return function(request, sender, sendResponse) {
+        var cb, _i, _len, _ref;
+        if (request.tabs) {
+          _this.setTabs(request.tabs, request.lastActive);
+          _ref = _this._nextFetchListeners;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            cb = _ref[_i];
+            cb();
+          }
+          return _this._nextFetchListeners = [];
+        }
+      };
+    })(this));
   }
+
+  SwitcherModel.prototype.fetchTabs = function(cb) {
+    if (cb != null) {
+      this._nextFetchListeners.push(cb);
+    }
+    return chrome.runtime.sendMessage({
+      sendTabData: true,
+      searchAllWindows: this.searchAllWindows
+    });
+  };
 
   SwitcherModel.prototype.onTabsChange = function(cb) {
     return this._tabsChangeCallbacks.push(cb);
@@ -68,6 +97,11 @@ SwitcherModel = (function() {
       _results.push(cb(this.selected));
     }
     return _results;
+  };
+
+  SwitcherModel.prototype.setSearchAllWindows = function(val) {
+    this.searchAllWindows = !!val;
+    return localStorage.setItem('searchAllWindows', JSON.stringify(this.searchAllWindows));
   };
 
   SwitcherModel.prototype.filterTabs = function(search) {
@@ -180,19 +214,24 @@ SwitcherView = (function() {
     this.handleMouseover = __bind(this.handleMouseover, this);
     this.handleInputKeyUp = __bind(this.handleInputKeyUp, this);
     this.handleInputKeyDown = __bind(this.handleInputKeyDown, this);
+    this.handleSearchAllWindowsChange = __bind(this.handleSearchAllWindowsChange, this);
     _ref = [], this.list = _ref[0], this.input = _ref[1];
     body = $('body');
-    this.input = body.find('input');
+    this.input = body.find('input[type=text]');
+    this.checkbox = body.find('input[type=checkbox]');
     this.list = body.find('ul');
     this.input.focus();
+    if (this.model.searchAllWindows) {
+      this.checkbox.prop('checked', true);
+    }
     this.input.on('keydown', this.handleInputKeyDown);
     this.input.on('keyup', this.handleInputKeyUp);
-    this.list.on('mousemove', 'li', this.handleMouseover);
+    this.checkbox.on('change', this.handleSearchAllWindowsChange);
+    this.list.on('mouseover', 'li', this.handleMouseover);
     this.list.on('click', 'li', this.handleClick);
     this.model.onTabsChange((function(_this) {
       return function(tabs) {
         var tab, _i, _len;
-        console.log('tabs is now', tabs);
         _this.list.empty();
         for (_i = 0, _len = tabs.length; _i < _len; _i++) {
           tab = tabs[_i];
@@ -208,6 +247,20 @@ SwitcherView = (function() {
       };
     })(this));
   }
+
+  SwitcherView.prototype.handleSearchAllWindowsChange = function() {
+    var val;
+    val = this.checkbox.prop('checked');
+    this.model.setSearchAllWindows(val);
+    this.input.focus();
+    return this.model.fetchTabs((function(_this) {
+      return function() {
+        if (_this.input.val()) {
+          return _this.model.filterTabs(_this.input.val());
+        }
+      };
+    })(this));
+  };
 
   SwitcherView.prototype.handleInputKeyDown = function(evt) {
     switch (evt.which) {
@@ -251,8 +304,11 @@ SwitcherView = (function() {
     target = $(evt.target);
     if (target.is('li')) {
       tab = target.data('tab');
-    } else if (parents = target.parents('li') && parents.length) {
-      tab = $(parents.get(0));
+    } else {
+      parents = target.parents('li');
+      if (parents.length) {
+        tab = $(parents.get(0)).data('tab');
+      }
     }
     if (tab) {
       index = this.model.tabs.indexOf(tab);
@@ -277,13 +333,6 @@ $(function() {
   var model, view;
   model = new SwitcherModel();
   view = new SwitcherView(model);
-  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    if (request.tabs) {
-      console.log('setting tabs', request);
-      return model.setTabs(request.tabs, request.lastActive);
-    }
-  });
-  return chrome.runtime.sendMessage({
-    sendTabData: true
-  });
+  model.fetchTabs();
+  return $(window).on('blur', view.close);
 });

@@ -13,25 +13,26 @@ switcherWidth = 600;
 lastWindow = null;
 
 chrome.storage.local.get('lastTabs', function(data) {
-  console.log('data', data);
   return chrome.windows.getAll(function(windows) {
-    var id, ids, _, _ref;
+    var id, ids, _, _ref, _results;
     lastTabs = JSON.parse(data.lastTabs);
     ids = windows.map(function(win) {
       return win.id.toString();
     });
+    _results = [];
     for (id in lastTabs) {
       _ = lastTabs[id];
       if (_ref = id.toString(), __indexOf.call(ids, _ref) < 0) {
-        delete lastTabs[id];
+        _results.push(delete lastTabs[id]);
+      } else {
+        _results.push(void 0);
       }
     }
-    return console.log(lastTabs);
+    return _results;
   });
 });
 
 serialize = function() {
-  console.log('serializing');
   return chrome.storage.local.set({
     lastTabs: JSON.stringify(lastTabs)
   });
@@ -81,15 +82,25 @@ chrome.commands.onCommand.addListener(function(command) {
 });
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  var options;
   if (request.switchToTabId) {
     chrome.tabs.update(request.switchToTabId, {
       active: true
     });
+    chrome.tabs.get(request.switchToTabId, function(tab) {
+      if (tab != null) {
+        return chrome.windows.update(tab.windowId, {
+          focused: true
+        });
+      }
+    });
   }
   if (request.sendTabData) {
-    return chrome.tabs.query({
-      windowId: lastWindow.id
-    }, function(tabs) {
+    options = {};
+    if (!request.searchAllWindows) {
+      options.windowId = lastWindow.id;
+    }
+    return chrome.tabs.query(options, function(tabs) {
       var data;
       data = {
         tabs: tabs,

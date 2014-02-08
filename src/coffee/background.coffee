@@ -7,17 +7,13 @@ lastWindow = null
 # Fetch the `lastTabs` data from local storage;
 # clean it up based on current windows in case local storage is out of date
 chrome.storage.local.get 'lastTabs', (data) ->
-  console.log 'data', data
   chrome.windows.getAll (windows) ->
     lastTabs = JSON.parse(data.lastTabs)
     ids = windows.map (win) -> win.id.toString()
     for id, _ of lastTabs
       delete lastTabs[id] unless id.toString() in ids
 
-    console.log lastTabs
-
 serialize = ->
-  console.log 'serializing'
   chrome.storage.local.set(lastTabs: JSON.stringify(lastTabs))
 
 # Save the `lastTabs` data whenever the event page is unloaded
@@ -53,8 +49,12 @@ chrome.commands.onCommand.addListener (command) ->
 chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
   if request.switchToTabId
     chrome.tabs.update request.switchToTabId, active: true
+    chrome.tabs.get request.switchToTabId, (tab) ->
+      chrome.windows.update tab.windowId, focused: true if tab?
   if request.sendTabData
-    chrome.tabs.query windowId: lastWindow.id, (tabs) ->
+    options = {}
+    options.windowId = lastWindow.id unless request.searchAllWindows
+    chrome.tabs.query options, (tabs) ->
       data =
         tabs: tabs
         lastActive: (lastTabs[lastWindow.id] || [])[0]

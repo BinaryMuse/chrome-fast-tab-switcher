@@ -7,9 +7,22 @@ class SwitcherModel
   constructor: ->
     tabs = []
     selected = 0
+    searchAllWindows = localStorage.getItem('searchAllWindows')
+    @searchAllWindows = if searchAllWindows then JSON.parse(searchAllWindows) else false
 
     @_tabsChangeCallbacks = []
     @_selectedChangeCallbacks = []
+    @_nextFetchListeners = []
+
+    chrome.runtime.onMessage.addListener (request, sender, sendResponse) =>
+      if request.tabs
+        @setTabs(request.tabs, request.lastActive)
+        cb() for cb in @_nextFetchListeners
+        @_nextFetchListeners = []
+
+  fetchTabs: (cb) =>
+    @_nextFetchListeners.push(cb) if cb?
+    chrome.runtime.sendMessage sendTabData: true, searchAllWindows: @searchAllWindows
 
   onTabsChange: (cb) =>
     @_tabsChangeCallbacks.push(cb)
@@ -33,6 +46,10 @@ class SwitcherModel
   setSelected: (index) =>
     @selected = index
     cb(@selected) for cb in @_selectedChangeCallbacks
+
+  setSearchAllWindows: (val) =>
+    @searchAllWindows = !!val
+    localStorage.setItem 'searchAllWindows', JSON.stringify(@searchAllWindows)
 
   filterTabs: (search) =>
     for tab in @_origTabs
@@ -97,17 +114,20 @@ class SwitcherView
     [@list, @input] = []
 
     body = $('body')
-    @input = body.find('input')
+    @input = body.find('input[type=text]')
+    @checkbox = body.find('input[type=checkbox]')
     @list = body.find('ul')
     @input.focus()
 
+    @checkbox.prop('checked', true) if @model.searchAllWindows
+
     @input.on 'keydown', @handleInputKeyDown
     @input.on 'keyup', @handleInputKeyUp
-    @list.on 'mousemove', 'li', @handleMouseover
+    @checkbox.on 'change', @handleSearchAllWindowsChange
+    @list.on 'mouseover', 'li', @handleMouseover
     @list.on 'click', 'li', @handleClick
 
     @model.onTabsChange (tabs) =>
-      console.log 'tabs is now', tabs
       @list.empty()
       for tab in tabs
         @list.append new TabItemView(tab).element
@@ -116,6 +136,13 @@ class SwitcherView
     @model.onSelectedChange (index) =>
       @list.children().removeClass('selected')
       $(@list.children().get(index)).addClass('selected')
+
+  handleSearchAllWindowsChange: =>
+    val = @checkbox.prop('checked')
+    @model.setSearchAllWindows val
+    @input.focus()
+    @model.fetchTabs =>
+      @model.filterTabs @input.val() if @input.val()
 
   handleInputKeyDown: (evt) =>
     switch evt.which
@@ -150,8 +177,9 @@ class SwitcherView
     target = $(evt.target)
     if target.is('li')
       tab = target.data('tab')
-    else if parents = target.parents('li') && parents.length
-      tab = $(parents.get(0))
+    else
+      parents = target.parents('li')
+      tab = $(parents.get(0)).data('tab') if parents.length
 
     if tab
       index = @model.tabs.indexOf(tab)
@@ -167,12 +195,6 @@ class SwitcherView
 $ ->
   model = new SwitcherModel()
   view = new SwitcherView(model)
+  model.fetchTabs()
 
-  chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
-    if request.tabs
-      console.log 'setting tabs', request
-      model.setTabs(request.tabs, request.lastActive)
-
-  chrome.runtime.sendMessage sendTabData: true
-
-  # $(window).on 'blur', view.close
+  $(window).on 'blur', view.close
