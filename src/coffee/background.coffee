@@ -2,6 +2,7 @@ lastTabs = {}
 paddingTop = 50
 paddingBottom = 50
 switcherWidth = 600
+switcherWindowId = null
 lastWindow = null
 
 # Fetch the `lastTabs` data from local storage;
@@ -32,7 +33,10 @@ chrome.windows.onRemoved.addListener (windowId) ->
 chrome.commands.onCommand.addListener (command) ->
   if command == "show-tab-switcher"
     chrome.windows.getCurrent (currentWindow) ->
+      return if currentWindow.id == switcherWindowId
+
       lastWindow = currentWindow
+
       width = currentWindow.width - 200
       width = Math.min(600, width)
 
@@ -44,7 +48,8 @@ chrome.commands.onCommand.addListener (command) ->
         height: Math.max(currentWindow.height - paddingTop - paddingBottom, 600)
         focused: true
         type: 'popup'
-      chrome.windows.create windowOpts
+      chrome.windows.create windowOpts, (switcherWindow) ->
+        switcherWindowId = switcherWindow.id
 
 chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
   if request.switchToTabId
