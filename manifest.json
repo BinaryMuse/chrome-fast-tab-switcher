@@ -22,14 +22,5 @@
   "background": {
     "scripts": ["src/js/background.js"],
     "persistent": false
-  },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["vendor/js/jquery.js", "vendor/js/fuzzy.js", "src/js/switcher.js"]
-    }
-  ],
-  "web_accessible_resources": [
-    "src/html/template.html"
-  ]
+  }
 }
