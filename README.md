@@ -19,6 +19,9 @@ The default keyboard shortcut is `Alt+Shift+T` (`Opt+Shift+T` on OS X). You can,
 Hacking
 -------
 
-First, install CoffeeScript with `npm install coffee-script` (requires Node.js).
+You must have [Node.js](http://nodejs.org/) installed to build the extension.
 
-The files in `src/js` are compiled from the CoffeeScript files in `src/coffee`. To build the project, run `./build.sh`; you can run `./watch.sh` to start a process that will continually compile the files as you make changes.
+1. Install the dependencies: `npm install`
+2. Build the extension from `src/coffee` into `src/js`:
+  * Build once: `npm run build`
+  * Build continuously as files change: `npm run watch`
