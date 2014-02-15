@@ -1,0 +1,32 @@
+{
+  "name": "chrome-fast-tab-switcher",
+  "version": "0.2.2",
+  "description": "Chrome extension to quickly switch to other open tabs with just your keyboard",
+  "main": "index.js",
+  "devDependencies": {
+    "coffee-script": "~1.7.1",
+    "coffeeify": "~0.6.0",
+    "watchify": "~0.6.1",
+    "browserify": "~3.30.0"
+  },
+  "scripts": {
+    "watch": "./scripts/watch.sh",
+    "build": "./scripts/build.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/BinaryMuse/chrome-fast-tab-switcher.git"
+  },
+  "keywords": [
+    "chrome",
+    "extension",
+    "tabs",
+    "react"
+  ],
+  "author": "Brandon Tilley <brandon@brandontilley.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BinaryMuse/chrome-fast-tab-switcher/issues"
+  },
+  "homepage": "https://github.com/BinaryMuse/chrome-fast-tab-switcher"
+}

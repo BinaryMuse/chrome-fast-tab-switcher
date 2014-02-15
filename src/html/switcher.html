@@ -2,9 +2,6 @@
 <html>
 <head>
   <title>Fast Tab Switcher</title>
-  <script src="../../vendor/js/jquery.js"></script>
-  <script src="../../vendor/js/fuzzy.js"></script>
-  <script src='../js/switcher.js'></script>
   <style>
     * {
       box-sizing: border-box;
@@ -93,12 +90,9 @@
   </style>
 </head>
 <body>
-  <input type='text'>
-  <ul></ul>
-  <div class='status'>
-    <label>
-      <input type='checkbox' value='1'> Show tabs from all windows
-    </label>
-  </div>
+<div id='switcher'></div>
+<script src="../../vendor/js/fuzzy.js"></script>
+<script src="../../vendor/js/react.min.js"></script>
+<script src='../js/app.js'></script>
 </body>
 </html>
