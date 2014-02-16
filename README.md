@@ -22,6 +22,13 @@ Hacking
 You must have [Node.js](http://nodejs.org/) installed to build the extension.
 
 1. Install the dependencies: `npm install`
-2. Build the extension from `src/coffee` into `src/js`:
+2. Build the extension from `src/js` into `build/js`:
   * Build once: `npm run build`
   * Build continuously as files change: `npm run watch`
+
+Tests
+-----
+
+Run the test suite with `npm test`.
+
+You may run JSHint on the source with `npm run jshint`.

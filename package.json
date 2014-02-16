@@ -3,8 +3,6 @@
   "version": "0.2.2",
   "description": "Chrome extension to quickly switch to other open tabs with just your keyboard",
   "devDependencies": {
-    "coffee-script": "~1.7.1",
-    "coffeeify": "~0.6.0",
     "watchify": "~0.6.1",
     "browserify": "~3.30.0",
     "nodeunit": "~0.8.5",
