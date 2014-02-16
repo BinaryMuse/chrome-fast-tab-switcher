@@ -8,7 +8,7 @@ You can [install this extension on the Chrome Web Store](https://chrome.google.c
 Usage
 -----
 
-The default keyboard shortcut is `Alt+Shift+T` (`Opt+Shift+T` on OS X). You can, and may need to, adjust your keyboard shortcuts via the link at the very bottom of your Chrome extensions page at `chrome://extensions`.
+The default keyboard shortcut is `Alt+Shift+M` (`Opt+Shift+M` on OS X). You can, and may need to, adjust your keyboard shortcuts via the link at the very bottom of your Chrome extensions page at `chrome://extensions`.
 
 Installing from Source
 ----------------------
