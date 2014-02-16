@@ -59,56 +59,54 @@ module.exports = React.createClass({
   },
 
   componentDidMount: function() {
-    bus.on('change:filter', function(newFilter) {
-      this.setState({filter: newFilter}, function() {
-        this.setState({selected: this.filteredTabs(newFilter)[0]});
-      }.bind(this));
-    }.bind(this));
-
-    // TODO: DRY
-    bus.on('select:previous', function() {
-      var filteredTabs = this.filteredTabs();
-      if (!filteredTabs.length) return;
-
-      var currentIndex = filteredTabs.indexOf(this.state.selected);
-      var newIndex = Math.max(0, currentIndex - 1);
-      var newTab = filteredTabs[newIndex];
-      bus.emit('change:selected', newTab);
-    }.bind(this));
-
-    bus.on('select:next', function() {
-      var filteredTabs = this.filteredTabs();
-      if (!filteredTabs.length) return;
-
-      var currentIndex = filteredTabs.indexOf(this.state.selected);
-      var newIndex = Math.min(filteredTabs.length - 1, currentIndex + 1);
-      var newTab = filteredTabs[newIndex];
-      bus.emit('change:selected', newTab);
-    }.bind(this));
-
-    bus.on('change:selected', function(tab) {
-      this.setState({selected: tab});
-    }.bind(this));
-
-    bus.on('change:searchAllWindows', function(value) {
-      // TODO: move into a model
-      localStorage.setItem('searchAllWindows', JSON.stringify(value));
-      this.setState({searchAllWindows: value}, this.refreshTabs);
-    }.bind(this));
-
-    bus.on('action:activate', function() {
-      if (this.state.selected) {
-        tabDatabase.switchTo(this.state.selected);
-        bus.emit('exit');
-      }
-    }.bind(this));
-
+    bus.on('change:filter', this.changeFilter);
+    bus.on('change:selected', this.changeSelected);
+    bus.on('change:searchAllWindows', this.changeSearchAllWindows);
+    bus.on('select:previous', this.moveSelection.bind(this, -1));
+    bus.on('select:next', this.moveSelection.bind(this, 1));
+    bus.on('action:activate', this.activateSelection);
     bus.on('exit', this.close);
+    window.onblur = this.close;
 
     // TODO: move into a model
     var searchAllWindows = localStorage.getItem('searchAllWindows');
     searchAllWindows = searchAllWindows ? JSON.parse(searchAllWindows) : false;
     this.setState({searchAllWindows: searchAllWindows}, this.refreshTabs);
+  },
+
+  activateSelection: function() {
+    if (this.state.selected) {
+      tabDatabase.switchTo(this.state.selected);
+      bus.emit('exit');
+    }
+  },
+
+  changeFilter: function(newFilter) {
+    this.setState({filter: newFilter}, function() {
+      this.setState({selected: this.filteredTabs(newFilter)[0]});
+    });
+  },
+
+  changeSelected: function(tab) {
+    this.setState({selected: tab});
+  },
+
+  moveSelection: function(change) {
+    var filteredTabs = this.filteredTabs();
+    if (!filteredTabs.length) return;
+
+    var currentIndex = filteredTabs.indexOf(this.state.selected);
+    var newIndex = currentIndex + change;
+    if (newIndex < 0) newIndex = 0;
+    if (newIndex >= filteredTabs.length) newIndex = filteredTabs.length - 1;
+    var newTab = filteredTabs[newIndex];
+    bus.emit('change:selected', newTab);
+  },
+
+  changeSearchAllWindows: function(value) {
+    // TODO: move into a model
+    localStorage.setItem('searchAllWindows', JSON.stringify(value));
+    this.setState({searchAllWindows: value}, this.refreshTabs);
   },
 
   close: function() {
