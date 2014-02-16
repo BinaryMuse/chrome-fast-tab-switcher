@@ -2002,28 +2002,42 @@ var PADDING_TOP = 50;
 var PADDING_BOTTOM = 50;
 var SWITCHER_WIDTH = 600;
 
+// When Chrome shuts down our extension, we want
+// to persist our list of recently activated tabs,
+// so that the next time the user activates the
+// extension, the data will still be there.
 chrome.runtime.onSuspend.addListener(function() {
   tabHistory.saveRecentTabs();
 });
 
+// Chrome will wake up the extension to call this listener.
 chrome.tabs.onActivated.addListener(function(tab) {
   var windowId = tab.windowId;
   var tabId = tab.tabId;
   tabHistory.addRecentTab(windowId, tabId);
 });
 
+// When the user closes a window, remove all that window's
+// history. Keep that local storage clean!
 chrome.windows.onRemoved.addListener(function(windowId) {
   tabHistory.removeHistoryForWindow(windowId);
 });
 
 chrome.commands.onCommand.addListener(function(command) {
+  // Users can bind a key to this command in their Chrome
+  // keyboard shortcuts, at the bottom of their extensions page.
   if (command == 'show-tab-switcher') {
     var currentWindow = windowManager.getCurrentWindow();
     var switcherWindowId = windowManager.getSwitcherWindowId();
+
     Q.all([currentWindow, switcherWindowId])
     .spread(function(currentWindow, switcherWindowId) {
+      // Don't activate the switcher from an existing switcher window.
       if (currentWindow.id == switcherWindowId) return;
 
+      // When the user activates the switcher and doesn't have "search
+      // in all windows" enabled, we need to know which was the last
+      // non-switcher window that was active.
       windowManager.setLastWindowId(currentWindow.id);
       var left = Math.max(0, currentWindow.left +
         Math.round((currentWindow.width - SWITCHER_WIDTH) / 2));
@@ -2047,8 +2061,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, respond) {
       return windowManager.queryTabs(sender.tab.id, request.searchAllWindows,
                                      recentTabs, lastWindowId);
     }).then(function(data) {
-      chrome.tabs.sendMessage(sender.tab.id, data);
+      respond(data);
     });
+    // We must return `true` so that Chrome leaves the
+    // messaging channel open, thus allowing us to call `respond`.
+    return true;
   }
 });
 
@@ -2056,6 +2073,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, respond) {
 var Q = require('q');
 var util = require('../util');
 
+// This module keeps a list of recently activated tabs, and persists
+// it to and from local storage. We use this data to allow the
+// user to quicly bounce back and forth between tabs.
 module.exports = function(chrome) {
   var recentTabs = null;
 
@@ -2075,6 +2095,8 @@ module.exports = function(chrome) {
         recentTabs = Q.all([storeData, windows]).spread(function(data, windows) {
           data = JSON.parse(data.lastTabs) || {};
           var ids = windows.map(function(win) { return win.id.toString(); });
+          // Remove the histories for any windows
+          // that have been closed since we last saved.
           for (var key in data) {
             if (ids.indexOf(key.toString()) == -1) {
               delete data[key];
@@ -2091,6 +2113,8 @@ module.exports = function(chrome) {
       return this.getRecentTabs().then(function(tabs) {
         if (!tabs[windowId]) tabs[windowId] = [null];
         tabs[windowId].push(tabId);
+        // We always want to display the next-to-most-recent tab to the user
+        // (as the most recent tab is the one we're on now).
         while (tabs[windowId].length > 2) {
           tabs[windowId].shift();
         }
@@ -2106,9 +2130,9 @@ module.exports = function(chrome) {
     },
 
     saveRecentTabs: function() {
-      return recentTabs.then(function(tabs) {
+      return Q.when(recentTabs).then(function(tabs) {
         if (!tabs) return;
-        chrome.storage.local.set({lastTabs: JSON.stringify(recentTabs)});
+        chrome.storage.local.set({lastTabs: JSON.stringify(tabs)});
       });
     }
   };
@@ -2171,6 +2195,7 @@ module.exports = function(chrome) {
       return util.pcall(chrome.tabs.query, options)
       .then(function(tabs) {
         tabs = tabs.filter(function(tab) { return tab.id != senderTabId; });
+        console.log('recent', recentTabs, 'lastId', lastWindowId)
         return {
           tabs: tabs,
           lastActive: (recentTabs[lastWindowId] || [])[0] || null
@@ -2191,6 +2216,9 @@ module.exports = function(chrome) {
 var Q = require('q');
 
 module.exports = {
+  // `pcall` takes a function that takes a set of arguments and
+  // a callback (NON-Node.js style) and turns it into a promise
+  // that gets resolved with the arguments to the callback.
   pcall: function(fn) {
     var deferred = Q.defer();
     var callback = function() {

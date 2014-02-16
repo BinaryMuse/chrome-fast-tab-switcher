@@ -11,7 +11,7 @@
     "reactify": "~0.7.0"
   },
   "scripts": {
-    "test": "nodeunit test/*.js",
+    "test": "nodeunit test/**/*.js",
     "jshint": "./node_modules/.bin/jshint src/js/**/*.js*",
     "watch": "./scripts/watch.sh",
     "build": "./scripts/build.sh"

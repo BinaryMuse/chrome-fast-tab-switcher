@@ -1,19 +1,17 @@
-module.exports = React.createClass({
-  componentDidMount: function() {
-    this.props.model.on('change:searchAllWindows', this.forceUpdate.bind(this, null));
-  },
+var bus = require('./bus');
 
+module.exports = React.createClass({
   onChange: function(evt) {
-    this.props.model.setSearchAllWindows(evt.target.checked);
+    bus.emit('change:searchAllWindows', evt.target.checked);
   },
 
   render: function() {
     return (
       /* jshint ignore:start */
       <label className='status'>
-        <input type='checkbox' checked={this.props.model.searchAllWindows}
+        <input type='checkbox' checked={this.props.searchAllWindows}
           onChange={this.onChange} />
-        <span>'Show tabs from all windows'</span>
+        <span>Show tabs from all windows</span>
       </label>
       /* jshint ignore:end */
     );

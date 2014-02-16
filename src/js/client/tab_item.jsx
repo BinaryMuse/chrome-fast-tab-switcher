@@ -1,12 +1,15 @@
+var bus = require('./bus');
+
 module.exports = React.createClass({
-  styleForFavico: function(ico) {
-    return {backgroundImage: "url(" + ico + ")"};
+  iconBkg: function(tab) {
+    return {backgroundImage: "url(" + tab.favIconUrl + ")"};
   },
 
   className: function() {
     return this.props.selected ? "selected" : "";
   },
 
+  // TODO: move into new 'string spanner'
   tabTitle: function(tab) {
     return tab._htmlTitle || tab.title;
   },
@@ -16,11 +19,11 @@ module.exports = React.createClass({
   },
 
   onMouseEnter: function(evt) {
-    this.props.model.setSelected(this.props.index);
+    bus.emit('change:selected', this.props.tab);
   },
 
   onClick: function(evt) {
-    return this.props.model.activateSelected();
+    bus.emit('action:activate');
   },
 
   render: function() {
@@ -28,7 +31,7 @@ module.exports = React.createClass({
       /* jshint ignore:start */
       <li className={this.className()} onClick={this.onClick} onMouseEnter={this.onMouseEnter}>
         <div>
-          <div className='bkg' style={this.styleForFavico(this.props.tab.favIconUrl)} />
+          <div className='bkg' style={this.iconBkg(this.props.tab)} />
           <span className='title' dangerouslySetInnerHTML={{__html: this.tabTitle(this.props.tab)}} />
         </div>
         <div className='url' dangerouslySetInnerHTML={{__html: this.tabUrl(this.props.tab)}} />

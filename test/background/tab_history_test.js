@@ -1,5 +1,5 @@
 var Q = require('q');
-var tabHistory = require('../src/js/background/tab_history');
+var tabHistory = require('../../src/js/background/tab_history');
 var api;
 
 var localStorageWith = function(val) {

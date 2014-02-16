@@ -1,5 +1,4 @@
-var Q = require('q');
-var windowManager = require('../src/js/background/window_manager');
+var windowManager = require('../../src/js/background/window_manager');
 var api;
 
 var windowsWith = function(windows) {
