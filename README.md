@@ -3,7 +3,7 @@ Chrome Fast Tab Switcher
 
 This Chrome extension allows you to switch between Chrome tabs in your active window quickly using your keyboard.
 
-You can [install this extension on the Chrome Web Store](https://chrome.google.com/webstore/detail/fast-tab-switcher/jkhfenkikopkkpboaipgllclaaehgpjf) if you do not wish to install it from source.
+You can [install this extension from the Chrome Web Store](https://chrome.google.com/webstore/detail/fast-tab-switcher/jkhfenkikopkkpboaipgllclaaehgpjf) if you do not wish to install it from source.
 
 Usage
 -----
