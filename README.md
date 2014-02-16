@@ -3,18 +3,22 @@ Chrome Fast Tab Switcher
 
 This Chrome extension allows you to switch between Chrome tabs in your active window quickly using your keyboard.
 
-Installation
-------------
+You can [install this extension on the Chrome Web Store](https://chrome.google.com/webstore/detail/fast-tab-switcher/jkhfenkikopkkpboaipgllclaaehgpjf) if you do not wish to install it from source.
 
- * Visit `chrome://extensions/`
- * Ensure `Developer mode` is checked
- * Click `Load unpacked extension...`
- * Locate and select the directory with the `manifest.json` file in it
+<iframe width="854" height="510" src="//www.youtube.com/embed/lzFYiz9kH_4" frameborder="0" allowfullscreen></iframe>
 
 Usage
 -----
 
 The default keyboard shortcut is `Alt+Shift+T` (`Opt+Shift+T` on OS X). You can, and may need to, adjust your keyboard shortcuts via the link at the very bottom of your Chrome extensions page at `chrome://extensions`.
+
+Installing from Source
+----------------------
+
+ * Visit `chrome://extensions/`
+ * Ensure `Developer mode` is checked
+ * Click `Load unpacked extension...`
+ * Locate and select the directory with the `manifest.json` file in it
 
 Hacking
 -------
@@ -31,4 +35,4 @@ Tests
 
 Run the test suite with `npm test`.
 
-You may run JSHint on the source with `npm run jshint`.
+Run JSHint on the source with `npm run jshint`.
