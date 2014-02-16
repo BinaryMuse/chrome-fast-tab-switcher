@@ -2195,7 +2195,6 @@ module.exports = function(chrome) {
       return util.pcall(chrome.tabs.query, options)
       .then(function(tabs) {
         tabs = tabs.filter(function(tab) { return tab.id != senderTabId; });
-        console.log('recent', recentTabs, 'lastId', lastWindowId)
         return {
           tabs: tabs,
           lastActive: (recentTabs[lastWindowId] || [])[0] || null
