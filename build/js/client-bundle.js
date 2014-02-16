@@ -2358,8 +2358,8 @@ module.exports = function(chrome) {
 
         for(var idx in tabs) {
           var tab = tabs[idx];
-          if (tab.id === lastActive) firstTab.push(tab)
-          else otherTabs.push(tab)
+          if (tab.id === lastActive) firstTab.push(tab);
+          else otherTabs.push(tab);
         }
 
         return firstTab.concat(otherTabs);
@@ -2557,9 +2557,9 @@ module.exports = React.createClass({
     tabDatabase.query(this.state.filter, this.state.searchAllWindows)
     .then(function(tabs) {
       this.setState({tabs: tabs}, function() {
-        this.setState({selected: this.filteredTabs()[0]})
+        this.setState({selected: this.filteredTabs()[0]});
       }.bind(this));
-    }.bind(this))
+    }.bind(this));
   },
 
   // We're calculating this on the fly each time instead of caching

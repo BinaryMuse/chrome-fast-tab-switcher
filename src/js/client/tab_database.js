@@ -28,8 +28,8 @@ module.exports = function(chrome) {
 
         for(var idx in tabs) {
           var tab = tabs[idx];
-          if (tab.id === lastActive) firstTab.push(tab)
-          else otherTabs.push(tab)
+          if (tab.id === lastActive) firstTab.push(tab);
+          else otherTabs.push(tab);
         }
 
         return firstTab.concat(otherTabs);

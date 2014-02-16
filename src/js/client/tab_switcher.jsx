@@ -39,9 +39,9 @@ module.exports = React.createClass({
     tabDatabase.query(this.state.filter, this.state.searchAllWindows)
     .then(function(tabs) {
       this.setState({tabs: tabs}, function() {
-        this.setState({selected: this.filteredTabs()[0]})
+        this.setState({selected: this.filteredTabs()[0]});
       }.bind(this));
-    }.bind(this))
+    }.bind(this));
   },
 
   // We're calculating this on the fly each time instead of caching
