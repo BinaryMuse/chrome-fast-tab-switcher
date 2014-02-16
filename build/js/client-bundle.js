@@ -2540,7 +2540,11 @@ module.exports = React.createClass({
   getInitialState: function() {
     // TODO: move into a model
     var searchAllWindows = localStorage.getItem('searchAllWindows');
-    searchAllWindows = searchAllWindows ? JSON.parse(searchAllWindows) : false;
+    try {
+      searchAllWindows = searchAllWindows ? JSON.parse(searchAllWindows) : false;
+    } catch (error) {
+      searchAllWindows = false;
+    }
 
     return {
       filter: '',

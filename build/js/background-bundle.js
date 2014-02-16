@@ -2092,7 +2092,11 @@ module.exports = function(chrome) {
         storeData = this.getFromLocalStorage('lastTabs');
         windows = this.getAllWindows();
         recentTabs = Q.all([storeData, windows]).spread(function(data, windows) {
-          data = JSON.parse(data.lastTabs) || {};
+          try {
+            data = JSON.parse(data.lastTabs) || {};
+          } catch (error) {
+            data = {};
+          }
           var ids = windows.map(function(win) { return win.id.toString(); });
           // Remove the histories for any windows
           // that have been closed since we last saved.
