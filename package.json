@@ -6,9 +6,15 @@
     "coffee-script": "~1.7.1",
     "coffeeify": "~0.6.0",
     "watchify": "~0.6.1",
-    "browserify": "~3.30.0"
+    "browserify": "~3.30.0",
+    "nodeunit": "~0.8.5",
+    "q": "~1.0.0",
+    "jshint": "~2.4.3",
+    "reactify": "~0.7.0"
   },
   "scripts": {
+    "test": "nodeunit test/*.js",
+    "jshint": "./node_modules/.bin/jshint src/js/**/*.js*",
     "watch": "./scripts/watch.sh",
     "build": "./scripts/build.sh"
   },

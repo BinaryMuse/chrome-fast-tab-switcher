@@ -4,9 +4,9 @@
   "description": "Quickly switch to other open tabs with just your keyboard",
   "version": "0.2.2",
   "icons": {
-    "16": "src/img/icon16.png",
-    "48": "src/img/icon48.png",
-    "128": "src/img/icon128.png"
+    "16": "build/img/icon16.png",
+    "48": "build/img/icon48.png",
+    "128": "build/img/icon128.png"
   },
   "permissions": [
     "tabs", "storage"
@@ -20,7 +20,8 @@
     }
   },
   "background": {
-    "scripts": ["src/js/background.js"],
+    "scripts": ["build/js/background-bundle.js"],
     "persistent": false
-  }
+  },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
