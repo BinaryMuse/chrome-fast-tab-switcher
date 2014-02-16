@@ -1996,7 +1996,6 @@ return Q;
 var Q = require('q');
 var tabHistory = require('./background/tab_history')(chrome);
 var windowManager = require('./background/window_manager')(chrome);
-var util = require('./util');
 
 var PADDING_TOP = 50;
 var PADDING_BOTTOM = 50;
@@ -2069,7 +2068,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, respond) {
   }
 });
 
-},{"./background/tab_history":4,"./background/window_manager":5,"./util":6,"q":2}],4:[function(require,module,exports){
+},{"./background/tab_history":4,"./background/window_manager":5,"q":2}],4:[function(require,module,exports){
 var Q = require('q');
 var util = require('../util');
 

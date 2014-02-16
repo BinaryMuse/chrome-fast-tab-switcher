@@ -1,7 +1,6 @@
 var Q = require('q');
 var tabHistory = require('./background/tab_history')(chrome);
 var windowManager = require('./background/window_manager')(chrome);
-var util = require('./util');
 
 var PADDING_TOP = 50;
 var PADDING_BOTTOM = 50;
