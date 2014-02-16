@@ -5,21 +5,14 @@ module.exports = function(chrome) {
   var responses = {};
 
   return {
-    fetchTabs: function(searchAllWindows, reload) {
-      if (!responses[searchAllWindows] || reload) {
-        var opts = {
-          sendTabData: true,
-          searchAllWindows: searchAllWindows
-        };
-        var fn = chrome.runtime.sendMessage.bind(chrome.runtime);
-        responses[searchAllWindows] = util.pcall(fn, opts);
-      }
+    query: function(searchAllWindows) {
+      var opts = {
+        sendTabData: true,
+        searchAllWindows: searchAllWindows
+      };
+      var fn = chrome.runtime.sendMessage.bind(chrome.runtime);
 
-      return responses[searchAllWindows];
-    },
-
-    query: function(term, searchAllWindows, reload) {
-      return this.fetchTabs(searchAllWindows, reload).then(function(data) {
+      return util.pcall(fn, opts).then(function(data) {
         var tabs = data.tabs;
         var lastActive = data.lastActive;
 

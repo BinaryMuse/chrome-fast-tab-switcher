@@ -1,6 +1,6 @@
 var bus = require('./bus');
 var stringScore = require('../../../vendor/string_score');
-var tabDatabase = require('./tab_database')(chrome);
+var tabBroker = require('./tab_broker')(chrome);
 var tabFilter = require('./tab_filter')(stringScore);
 
 var TabSearchBox = require('./tab_search_box.jsx');
@@ -27,16 +27,20 @@ var StatusBar = require('./status_bar.jsx');
 
 module.exports = React.createClass({
   getInitialState: function() {
+    // TODO: move into a model
+    var searchAllWindows = localStorage.getItem('searchAllWindows');
+    searchAllWindows = searchAllWindows ? JSON.parse(searchAllWindows) : false;
+
     return {
       filter: '',
       selected: null,
       tabs: [],
-      searchAllWindows: false
+      searchAllWindows: searchAllWindows
     };
   },
 
   refreshTabs: function() {
-    tabDatabase.query(this.state.filter, this.state.searchAllWindows)
+    tabBroker.query(this.state.searchAllWindows)
     .then(function(tabs) {
       this.setState({tabs: tabs}, function() {
         this.setState({selected: this.filteredTabs()[0]});
@@ -68,15 +72,12 @@ module.exports = React.createClass({
     bus.on('exit', this.close);
     window.onblur = this.close;
 
-    // TODO: move into a model
-    var searchAllWindows = localStorage.getItem('searchAllWindows');
-    searchAllWindows = searchAllWindows ? JSON.parse(searchAllWindows) : false;
-    this.setState({searchAllWindows: searchAllWindows}, this.refreshTabs);
+    this.refreshTabs();
   },
 
   activateSelection: function() {
     if (this.state.selected) {
-      tabDatabase.switchTo(this.state.selected);
+      tabBroker.switchTo(this.state.selected);
       bus.emit('exit');
     }
   },
