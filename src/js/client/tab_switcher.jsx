@@ -124,7 +124,7 @@ module.exports = React.createClass({
       /* jshint ignore:start */
       <div>
         <TabSearchBox filter={this.state.filter} />
-        <TabList tabs={filteredTabs}
+        <TabList tabs={filteredTabs} filter={this.state.filter}
           selectedTab={this.state.selected} />
         <StatusBar searchAllWindows={this.state.searchAllWindows} />
       </div>

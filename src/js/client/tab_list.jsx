@@ -6,7 +6,7 @@ module.exports = React.createClass({
       /* jshint ignore:start */
       <ul>
         {this.props.tabs.map(function(tab, i) {
-          return <TabItem tab={tab} key={tab.id}
+          return <TabItem tab={tab} key={tab.id} filter={this.props.filter}
             selected={this.props.selectedTab === tab} />;
         }.bind(this))}
       </ul>

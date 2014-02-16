@@ -1,4 +1,8 @@
 var bus = require('./bus');
+var stringSpanner = require('./string_spanner');
+
+var MATCH_START = '<span class="match">';
+var MATCH_END = '</span>';
 
 module.exports = React.createClass({
   iconBkg: function(tab) {
@@ -9,13 +13,12 @@ module.exports = React.createClass({
     return this.props.selected ? "selected" : "";
   },
 
-  // TODO: move into new 'string spanner'
   tabTitle: function(tab) {
-    return tab._htmlTitle || tab.title;
+    return stringSpanner(tab.title, this.props.filter, MATCH_START, MATCH_END);
   },
 
   tabUrl: function(tab) {
-    return tab._htmlUrl || tab.url;
+    return stringSpanner(tab.url, this.props.filter, MATCH_START, MATCH_END);
   },
 
   onMouseEnter: function(evt) {

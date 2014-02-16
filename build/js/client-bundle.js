@@ -2301,7 +2301,7 @@ return Q;
 React.renderComponent(TabSwitcher(null ), document.getElementById('switcher'));
 /* jshint ignore:end */
 
-},{"./client/tab_switcher.jsx":12}],5:[function(require,module,exports){
+},{"./client/tab_switcher.jsx":13}],5:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 
 module.exports = new EventEmitter();
@@ -2328,6 +2328,52 @@ module.exports = React.createClass({
 });
 
 },{"./bus":5}],7:[function(require,module,exports){
+var sections = function(haystack, needle, remaining, acc, offset) {
+  if (!acc) acc = [];
+  if (!remaining) remaining = "";
+  if (!offset) offset = 0;
+
+  needle = needle.trim();
+  var index = haystack.toLowerCase().indexOf(needle.toLowerCase());
+  if (index > -1) {
+    if (remaining.length) {
+      var remainingHaystack = haystack.substr(needle.length + index);
+      return sections(remainingHaystack, remaining, null, acc.concat([[offset + index, offset + needle.length + index]]), offset + needle.length + index);
+    } else {
+      return acc.concat([[offset + index, offset + needle.length + index]]);
+    }
+  } else if (needle.length > 1) {
+    var nextNeedle = needle.substr(0, needle.length - 1);
+    return sections(haystack, nextNeedle, needle.substr(needle.length - 1) + remaining, acc, offset);
+  } else {
+    return [];
+  }
+};
+
+module.exports = function(haystack, needle, pre, post) {
+  if (!pre) pre = '';
+  if (!post) post = '';
+
+  var matches = sections(haystack, needle);
+  if (!matches.length) return haystack;
+  var lastPos = 0;
+  var result = '';
+
+  for (var idx in matches) {
+    var match = matches[idx];
+    var start = match[0];
+    var end = match[1];
+    result += haystack.substring(lastPos, start);
+    result += pre + haystack.substring(start, end) + post;
+    lastPos = end;
+  }
+
+  result += haystack.substr(lastPos);
+
+  return result;
+};
+
+},{}],8:[function(require,module,exports){
 var Q = require('q');
 var util = require('../util');
 
@@ -2366,7 +2412,7 @@ module.exports = function(chrome) {
   };
 };
 
-},{"../util":13,"q":3}],8:[function(require,module,exports){
+},{"../util":14,"q":3}],9:[function(require,module,exports){
 /**
  * A tab filter is simply a function that takes a string to filter
  * on and an array of tabs; it will determine if the tab title or URL
@@ -2397,8 +2443,12 @@ module.exports = function(scorer) {
   };
 };
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /** @jsx React.DOM */var bus = require('./bus');
+var stringSpanner = require('./string_spanner');
+
+var MATCH_START = '<span class="match">';
+var MATCH_END = '</span>';
 
 module.exports = React.createClass({
   iconBkg: function(tab) {
@@ -2409,13 +2459,12 @@ module.exports = React.createClass({
     return this.props.selected ? "selected" : "";
   },
 
-  // TODO: move into new 'string spanner'
   tabTitle: function(tab) {
-    return tab._htmlTitle || tab.title;
+    return stringSpanner(tab.title, this.props.filter, MATCH_START, MATCH_END);
   },
 
   tabUrl: function(tab) {
-    return tab._htmlUrl || tab.url;
+    return stringSpanner(tab.url, this.props.filter, MATCH_START, MATCH_END);
   },
 
   onMouseEnter: function(evt) {
@@ -2441,7 +2490,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"./bus":5}],10:[function(require,module,exports){
+},{"./bus":5,"./string_spanner":7}],11:[function(require,module,exports){
 /** @jsx React.DOM */var TabItem = require('./tab_item.jsx');
 
 module.exports = React.createClass({
@@ -2450,7 +2499,7 @@ module.exports = React.createClass({
       /* jshint ignore:start */
       React.DOM.ul(null, 
         this.props.tabs.map(function(tab, i) {
-          return TabItem( {tab:tab, key:tab.id,
+          return TabItem( {tab:tab, key:tab.id, filter:this.props.filter,
             selected:this.props.selectedTab === tab} );
         }.bind(this))
       )
@@ -2459,7 +2508,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"./tab_item.jsx":9}],11:[function(require,module,exports){
+},{"./tab_item.jsx":10}],12:[function(require,module,exports){
 /** @jsx React.DOM */var bus = require('./bus');
 
 var KEY_ENTER = 13;
@@ -2508,7 +2557,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"./bus":5}],12:[function(require,module,exports){
+},{"./bus":5}],13:[function(require,module,exports){
 /** @jsx React.DOM */var bus = require('./bus');
 var stringScore = require('../../../vendor/string_score');
 var tabBroker = require('./tab_broker')(chrome);
@@ -2635,7 +2684,7 @@ module.exports = React.createClass({
       /* jshint ignore:start */
       React.DOM.div(null, 
         TabSearchBox( {filter:this.state.filter} ),
-        TabList( {tabs:filteredTabs,
+        TabList( {tabs:filteredTabs, filter:this.state.filter,
           selectedTab:this.state.selected} ),
         StatusBar( {searchAllWindows:this.state.searchAllWindows} )
       )
@@ -2644,7 +2693,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"../../../vendor/string_score":14,"./bus":5,"./status_bar.jsx":6,"./tab_broker":7,"./tab_filter":8,"./tab_list.jsx":10,"./tab_search_box.jsx":11}],13:[function(require,module,exports){
+},{"../../../vendor/string_score":15,"./bus":5,"./status_bar.jsx":6,"./tab_broker":8,"./tab_filter":9,"./tab_list.jsx":11,"./tab_search_box.jsx":12}],14:[function(require,module,exports){
 var Q = require('q');
 
 module.exports = {
@@ -2663,7 +2712,7 @@ module.exports = {
   }
 };
 
-},{"q":3}],14:[function(require,module,exports){
+},{"q":3}],15:[function(require,module,exports){
 /*!
  * string_score.js: String Scoring Algorithm 0.1.20
  *
