@@ -2427,8 +2427,8 @@ module.exports = function(chrome) {
 module.exports = function(scorer) {
   return function(query, array) {
     return array.map(function(item) {
-      var titleScore = scorer(item.title, query) * 2;
-      var urlScore = scorer(item.url, query);
+      var titleScore = scorer(item.title.trim(), query.trim()) * 2;
+      var urlScore = scorer(item.url.trim(), query.trim());
       var higherScore = titleScore >= urlScore ?
         titleScore : urlScore;
       return {
@@ -2616,7 +2616,7 @@ module.exports = React.createClass({
   // it in the state because it is very much fast enough, and
   // simplifies some race-y areas of the component's lifecycle.
   filteredTabs: function() {
-    if (this.state.filter.length) {
+    if (this.state.filter.trim().length) {
       return tabFilter(this.state.filter, this.state.tabs)
       .map(function(result) {
         return result.tab;
@@ -2791,13 +2791,16 @@ module.exports = function(search, word, fuzziness) {
 
       idxOf = lString.indexOf(lWord[i], startAt);
 
-      if (-1 === idxOf) {
+      // EDIT: Skip non-matches if it's a space
+      if (-1 === idxOf && lWord[i] !== ' ') {
         return 0;
       } else if (startAt === idxOf) {
         charScore = 0.7;
-      } else {
+        // EDIT: if we skipped space failure above, don't add to score
+      } else if(lWord[i] !== ' ') {
         charScore = 0.1;
-        if (string[idxOf - 1] === ' ') charScore += 0.8;
+        // EDIT: removing this 'start of word' bonus
+        // if (string[idxOf - 1] === ' ') charScore += 0.8;
       }
 
       if (string[idxOf] === word[i]) charScore += 0.1;

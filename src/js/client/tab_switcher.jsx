@@ -56,7 +56,7 @@ module.exports = React.createClass({
   // it in the state because it is very much fast enough, and
   // simplifies some race-y areas of the component's lifecycle.
   filteredTabs: function() {
-    if (this.state.filter.length) {
+    if (this.state.filter.trim().length) {
       return tabFilter(this.state.filter, this.state.tabs)
       .map(function(result) {
         return result.tab;
