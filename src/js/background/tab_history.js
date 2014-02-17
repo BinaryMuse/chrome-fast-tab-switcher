@@ -16,6 +16,10 @@ module.exports = function(chrome) {
       return util.pcall(chrome.windows.getAll);
     },
 
+    getActiveTabs: function() {
+      return util.pcall(chrome.tabs.query.bind(chrome.tabs), {active: true});
+    },
+
     getRecentTabs: function() {
       if (!recentTabs) {
         storeData = this.getFromLocalStorage('lastTabs');
@@ -41,9 +45,10 @@ module.exports = function(chrome) {
       return recentTabs;
     },
 
-    addRecentTab: function(windowId, tabId) {
+    addRecentTab: function(windowId, tabId, skipIfAlreadyRecent) {
       return this.getRecentTabs().then(function(tabs) {
         if (!tabs[windowId]) tabs[windowId] = [null];
+        if (skipIfAlreadyRecent && tabs[windowId][1] == tabId) return;
         tabs[windowId].push(tabId);
         // We always want to display the next-to-most-recent tab to the user
         // (as the most recent tab is the one we're on now).

@@ -122,6 +122,18 @@ exports.addRecentTab = {
       test.deepEqual(tabs, {1: [2, 3], 2: [null, 4]});
       test.done();
     });
+  },
+
+  canCreateConditionallyIfNotAlreadyLatest: function(test) {
+    api.addRecentTab(2, 4)
+    .then(function() {
+      api.addRecentTab(2, 4, true);
+    })
+    .then(api.getRecentTabs)
+    .then(function(tabs) {
+      test.deepEqual(tabs, {1: [2, 3], 2: [null, 4]});
+      test.done();
+    });
   }
 };
 

@@ -27,6 +27,15 @@ chrome.windows.onRemoved.addListener(function(windowId) {
   tabHistory.removeHistoryForWindow(windowId);
 });
 
+tabHistory.getActiveTabs().then(function(tabs) {
+  for (var idx in tabs) {
+    var tab = tabs[idx];
+    var windowId = tab.windowId;
+    var tabId = tab.id;
+  }
+  tabHistory.addRecentTab(windowId, tabId, true);
+});
+
 chrome.commands.onCommand.addListener(function(command) {
   // Users can bind a key to this command in their Chrome
   // keyboard shortcuts, at the bottom of their extensions page.
