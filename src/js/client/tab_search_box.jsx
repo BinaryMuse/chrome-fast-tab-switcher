@@ -9,8 +9,15 @@ module.exports = React.createClass({
   componentDidMount: function() {
     var input = this.refs.input.getDOMNode();
     input.focus();
-    // TODO: can we move this to a component lifecycle method?
     bus.on('change:searchAllWindows', input.focus.bind(input));
+  },
+
+  render: function() {
+    return (
+      /* jshint ignore:start */
+      <input type='text' ref='input' onKeyDown={this.onKeydown} onChange={this.onChange} />
+      /* jshint ignore:end */
+    );
   },
 
   onKeydown: function(evt) {
@@ -35,13 +42,5 @@ module.exports = React.createClass({
   onChange: function(evt) {
     if (event.target.value !== this.props.filter)
       bus.emit('change:filter', event.target.value);
-  },
-
-  render: function() {
-    return (
-      /* jshint ignore:start */
-      <input type='text' ref='input' onKeyDown={this.onKeydown} onChange={this.onChange} />
-      /* jshint ignore:end */
-    );
   }
 });

@@ -2310,10 +2310,6 @@ module.exports = new EventEmitter();
 /** @jsx React.DOM */var bus = require('./bus');
 
 module.exports = React.createClass({
-  onChange: function(evt) {
-    bus.emit('change:searchAllWindows', evt.target.checked);
-  },
-
   render: function() {
     return (
       /* jshint ignore:start */
@@ -2324,6 +2320,10 @@ module.exports = React.createClass({
       )
       /* jshint ignore:end */
     );
+  },
+
+  onChange: function(evt) {
+    bus.emit('change:searchAllWindows', evt.target.checked);
   }
 });
 
@@ -2405,7 +2405,6 @@ module.exports = function(chrome) {
       });
     },
 
-    // TODO: move this elsewhere
     switchTo: function(tab) {
       chrome.runtime.sendMessage({switchToTabId: tab.id});
     }
@@ -2451,6 +2450,20 @@ var MATCH_START = '<span class="match">';
 var MATCH_END = '</span>';
 
 module.exports = React.createClass({
+  render: function() {
+    return (
+      /* jshint ignore:start */
+      React.DOM.li( {className:this.className(), onClick:this.onClick, onMouseEnter:this.onMouseEnter}, 
+        React.DOM.div(null, 
+          React.DOM.div( {className:"bkg", style:this.iconBkg(this.props.tab)} ),
+          React.DOM.span( {className:"title", dangerouslySetInnerHTML:{__html: this.tabTitle(this.props.tab)}} )
+        ),
+        React.DOM.div( {className:"url", dangerouslySetInnerHTML:{__html: this.tabUrl(this.props.tab)}} )
+      )
+      /* jshint ignore:end */
+    );
+  },
+
   iconBkg: function(tab) {
     return {backgroundImage: "url(" + tab.favIconUrl + ")"};
   },
@@ -2473,20 +2486,6 @@ module.exports = React.createClass({
 
   onClick: function(evt) {
     bus.emit('action:activate');
-  },
-
-  render: function() {
-    return (
-      /* jshint ignore:start */
-      React.DOM.li( {className:this.className(), onClick:this.onClick, onMouseEnter:this.onMouseEnter}, 
-        React.DOM.div(null, 
-          React.DOM.div( {className:"bkg", style:this.iconBkg(this.props.tab)} ),
-          React.DOM.span( {className:"title", dangerouslySetInnerHTML:{__html: this.tabTitle(this.props.tab)}} )
-        ),
-        React.DOM.div( {className:"url", dangerouslySetInnerHTML:{__html: this.tabUrl(this.props.tab)}} )
-      )
-      /* jshint ignore:end */
-    );
   }
 });
 
@@ -2520,8 +2519,15 @@ module.exports = React.createClass({
   componentDidMount: function() {
     var input = this.refs.input.getDOMNode();
     input.focus();
-    // TODO: can we move this to a component lifecycle method?
     bus.on('change:searchAllWindows', input.focus.bind(input));
+  },
+
+  render: function() {
+    return (
+      /* jshint ignore:start */
+      React.DOM.input( {type:"text", ref:"input", onKeyDown:this.onKeydown, onChange:this.onChange} )
+      /* jshint ignore:end */
+    );
   },
 
   onKeydown: function(evt) {
@@ -2546,14 +2552,6 @@ module.exports = React.createClass({
   onChange: function(evt) {
     if (event.target.value !== this.props.filter)
       bus.emit('change:filter', event.target.value);
-  },
-
-  render: function() {
-    return (
-      /* jshint ignore:start */
-      React.DOM.input( {type:"text", ref:"input", onKeyDown:this.onKeydown, onChange:this.onChange} )
-      /* jshint ignore:end */
-    );
   }
 });
 
@@ -2603,6 +2601,33 @@ module.exports = React.createClass({
     };
   },
 
+  componentDidMount: function() {
+    bus.on('change:filter', this.changeFilter);
+    bus.on('change:selected', this.changeSelected);
+    bus.on('change:searchAllWindows', this.changeSearchAllWindows);
+    bus.on('select:previous', this.moveSelection.bind(this, -1));
+    bus.on('select:next', this.moveSelection.bind(this, 1));
+    bus.on('action:activate', this.activateSelection);
+    bus.on('exit', this.close);
+    window.onblur = this.close;
+
+    this.refreshTabs();
+  },
+
+  render: function() {
+    var filteredTabs = this.filteredTabs();
+    return (
+      /* jshint ignore:start */
+      React.DOM.div(null, 
+        TabSearchBox( {filter:this.state.filter} ),
+        TabList( {tabs:filteredTabs, filter:this.state.filter,
+          selectedTab:this.state.selected} ),
+        StatusBar( {searchAllWindows:this.state.searchAllWindows} )
+      )
+      /* jshint ignore:end */
+    );
+  },
+
   refreshTabs: function() {
     tabBroker.query(this.state.searchAllWindows)
     .then(function(tabs) {
@@ -2624,19 +2649,6 @@ module.exports = React.createClass({
     } else {
       return this.state.tabs;
     }
-  },
-
-  componentDidMount: function() {
-    bus.on('change:filter', this.changeFilter);
-    bus.on('change:selected', this.changeSelected);
-    bus.on('change:searchAllWindows', this.changeSearchAllWindows);
-    bus.on('select:previous', this.moveSelection.bind(this, -1));
-    bus.on('select:next', this.moveSelection.bind(this, 1));
-    bus.on('action:activate', this.activateSelection);
-    bus.on('exit', this.close);
-    window.onblur = this.close;
-
-    this.refreshTabs();
   },
 
   activateSelection: function() {
@@ -2676,20 +2688,6 @@ module.exports = React.createClass({
 
   close: function() {
     window.close();
-  },
-
-  render: function() {
-    var filteredTabs = this.filteredTabs();
-    return (
-      /* jshint ignore:start */
-      React.DOM.div(null, 
-        TabSearchBox( {filter:this.state.filter} ),
-        TabList( {tabs:filteredTabs, filter:this.state.filter,
-          selectedTab:this.state.selected} ),
-        StatusBar( {searchAllWindows:this.state.searchAllWindows} )
-      )
-      /* jshint ignore:end */
-    );
   }
 });
 

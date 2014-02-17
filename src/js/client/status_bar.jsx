@@ -1,10 +1,6 @@
 var bus = require('./bus');
 
 module.exports = React.createClass({
-  onChange: function(evt) {
-    bus.emit('change:searchAllWindows', evt.target.checked);
-  },
-
   render: function() {
     return (
       /* jshint ignore:start */
@@ -15,5 +11,9 @@ module.exports = React.createClass({
       </label>
       /* jshint ignore:end */
     );
+  },
+
+  onChange: function(evt) {
+    bus.emit('change:searchAllWindows', evt.target.checked);
   }
 });

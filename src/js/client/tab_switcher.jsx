@@ -43,6 +43,33 @@ module.exports = React.createClass({
     };
   },
 
+  componentDidMount: function() {
+    bus.on('change:filter', this.changeFilter);
+    bus.on('change:selected', this.changeSelected);
+    bus.on('change:searchAllWindows', this.changeSearchAllWindows);
+    bus.on('select:previous', this.moveSelection.bind(this, -1));
+    bus.on('select:next', this.moveSelection.bind(this, 1));
+    bus.on('action:activate', this.activateSelection);
+    bus.on('exit', this.close);
+    window.onblur = this.close;
+
+    this.refreshTabs();
+  },
+
+  render: function() {
+    var filteredTabs = this.filteredTabs();
+    return (
+      /* jshint ignore:start */
+      <div>
+        <TabSearchBox filter={this.state.filter} />
+        <TabList tabs={filteredTabs} filter={this.state.filter}
+          selectedTab={this.state.selected} />
+        <StatusBar searchAllWindows={this.state.searchAllWindows} />
+      </div>
+      /* jshint ignore:end */
+    );
+  },
+
   refreshTabs: function() {
     tabBroker.query(this.state.searchAllWindows)
     .then(function(tabs) {
@@ -64,19 +91,6 @@ module.exports = React.createClass({
     } else {
       return this.state.tabs;
     }
-  },
-
-  componentDidMount: function() {
-    bus.on('change:filter', this.changeFilter);
-    bus.on('change:selected', this.changeSelected);
-    bus.on('change:searchAllWindows', this.changeSearchAllWindows);
-    bus.on('select:previous', this.moveSelection.bind(this, -1));
-    bus.on('select:next', this.moveSelection.bind(this, 1));
-    bus.on('action:activate', this.activateSelection);
-    bus.on('exit', this.close);
-    window.onblur = this.close;
-
-    this.refreshTabs();
   },
 
   activateSelection: function() {
@@ -116,19 +130,5 @@ module.exports = React.createClass({
 
   close: function() {
     window.close();
-  },
-
-  render: function() {
-    var filteredTabs = this.filteredTabs();
-    return (
-      /* jshint ignore:start */
-      <div>
-        <TabSearchBox filter={this.state.filter} />
-        <TabList tabs={filteredTabs} filter={this.state.filter}
-          selectedTab={this.state.selected} />
-        <StatusBar searchAllWindows={this.state.searchAllWindows} />
-      </div>
-      /* jshint ignore:end */
-    );
   }
 });

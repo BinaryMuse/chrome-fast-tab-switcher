@@ -29,7 +29,6 @@ module.exports = function(chrome) {
       });
     },
 
-    // TODO: move this elsewhere
     switchTo: function(tab) {
       chrome.runtime.sendMessage({switchToTabId: tab.id});
     }
