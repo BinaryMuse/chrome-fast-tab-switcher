@@ -14,7 +14,7 @@
   "commands": {
     "show-tab-switcher": {
       "suggested_key": {
-        "default": "Alt+Shift+M"
+        "default": "Ctrl+Shift+Comma"
       },
       "description": "Show the Fast Tab Switcher"
     }
