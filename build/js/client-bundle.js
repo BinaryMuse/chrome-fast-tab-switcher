@@ -2631,9 +2631,7 @@ module.exports = React.createClass({
   refreshTabs: function() {
     tabBroker.query(this.state.searchAllWindows)
     .then(function(tabs) {
-      this.setState({tabs: tabs}, function() {
-        this.setState({selected: this.filteredTabs()[0]});
-      }.bind(this));
+      this.setState({tabs: tabs}, this.resetSelectedTab);
     }.bind(this));
   },
 
@@ -2651,6 +2649,11 @@ module.exports = React.createClass({
     }
   },
 
+  resetSelectedTab: function() {
+    var filteredTabs = this.filteredTabs();
+    this.setState({selected: filteredTabs[0]});
+  },
+
   activateSelection: function() {
     if (this.state.selected) {
       tabBroker.switchTo(this.state.selected);
@@ -2659,9 +2662,7 @@ module.exports = React.createClass({
   },
 
   changeFilter: function(newFilter) {
-    this.setState({filter: newFilter}, function() {
-      this.setState({selected: this.filteredTabs()[0]});
-    });
+    this.setState({filter: newFilter}, this.resetSelectedTab);
   },
 
   changeSelected: function(tab) {
