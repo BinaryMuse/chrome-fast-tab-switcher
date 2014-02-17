@@ -30,6 +30,12 @@ You must have [Node.js](http://nodejs.org/) installed to build the extension.
   * Build once: `npm run build`
   * Build continuously as files change: `npm run watch`
 
+The entry point for the extension's background page is `src/js/background.js`. It is responsible for communicating the list of open tabs to the client when requested.
+
+The entry point for the extension's front-end is `src/js/client.jsx`. The client is written using [React](http://facebook.github.io/react/).
+
+Both these files are bundled using [Browserify](http://browserify.org/) (running a JSX transform for the client scripts) into `build/js`. At runtime, the extension uses only files from `build` and `vendor`.
+
 Tests
 -----
 
