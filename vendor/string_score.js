@@ -76,13 +76,16 @@ module.exports = function(search, word, fuzziness) {
 
       idxOf = lString.indexOf(lWord[i], startAt);
 
-      if (-1 === idxOf) {
+      // EDIT: Skip non-matches if it's a space
+      if (-1 === idxOf && lWord[i] !== ' ') {
         return 0;
       } else if (startAt === idxOf) {
         charScore = 0.7;
-      } else {
+        // EDIT: if we skipped space failure above, don't add to score
+      } else if(lWord[i] !== ' ') {
         charScore = 0.1;
-        if (string[idxOf - 1] === ' ') charScore += 0.8;
+        // EDIT: removing this 'start of word' bonus
+        // if (string[idxOf - 1] === ' ') charScore += 0.8;
       }
 
       if (string[idxOf] === word[i]) charScore += 0.1;
