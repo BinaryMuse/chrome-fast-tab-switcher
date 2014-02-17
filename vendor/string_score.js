@@ -73,16 +73,16 @@ module.exports = function(search, word, fuzziness) {
     }
   } else {
     for (var i = 0; i < wordLength; ++i) {
+      // EDIT: skip spaces in the needle
+      if (lWord[i] === ' ') continue;
 
       idxOf = lString.indexOf(lWord[i], startAt);
 
-      // EDIT: Skip non-matches if it's a space
-      if (-1 === idxOf && lWord[i] !== ' ') {
+      if (-1 === idxOf) {
         return 0;
       } else if (startAt === idxOf) {
         charScore = 0.7;
-        // EDIT: if we skipped space failure above, don't add to score
-      } else if(lWord[i] !== ' ') {
+      } else {
         charScore = 0.1;
         // EDIT: removing this 'start of word' bonus
         // if (string[idxOf - 1] === ' ') charScore += 0.8;
