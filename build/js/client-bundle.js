@@ -2660,7 +2660,7 @@ module.exports = React.createClass({
 
   changeFilter: function(newFilter) {
     this.setState({filter: newFilter}, function() {
-      this.setState({selected: this.filteredTabs(newFilter)[0]});
+      this.setState({selected: this.filteredTabs()[0]});
     });
   },
 
