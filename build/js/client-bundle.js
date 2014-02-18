@@ -2614,14 +2614,12 @@ module.exports = React.createClass({displayName: 'exports',
   },
 
   render: function() {
-    var filteredTabs = this.filteredTabs();
-    var selected = this.state.selected ? this.state.selected : filteredTabs[0];
     return (
       /* jshint ignore:start */
       React.DOM.div(null, 
         TabSearchBox( {filter:this.state.filter} ),
-        TabList( {tabs:filteredTabs, filter:this.state.filter,
-          selectedTab:selected} ),
+        TabList( {tabs:this.filteredTabs(), filter:this.state.filter,
+          selectedTab:this.getSelected()} ),
         StatusBar( {searchAllWindows:this.state.searchAllWindows} )
       )
       /* jshint ignore:end */
@@ -2649,8 +2647,12 @@ module.exports = React.createClass({displayName: 'exports',
     }
   },
 
+  getSelected: function() {
+    return this.state.selected || this.filteredTabs()[0];
+  },
+
   activateSelection: function() {
-    var selected = this.state.selected || this.filteredTabs()[0];
+    var selected = this.getSelected();
     if (selected) {
       tabBroker.switchTo(selected);
       bus.emit('exit');
@@ -2669,7 +2671,7 @@ module.exports = React.createClass({displayName: 'exports',
     var filteredTabs = this.filteredTabs();
     if (!filteredTabs.length) return;
 
-    var currentIndex = filteredTabs.indexOf(this.state.selected);
+    var currentIndex = filteredTabs.indexOf(this.getSelected());
     var newIndex = currentIndex + change;
     if (newIndex < 0) newIndex = 0;
     if (newIndex >= filteredTabs.length) newIndex = filteredTabs.length - 1;
