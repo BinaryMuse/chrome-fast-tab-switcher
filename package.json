@@ -8,7 +8,7 @@
     "nodeunit": "~0.8.5",
     "q": "~1.0.0",
     "jshint": "~2.4.3",
-    "reactify": "~0.7.0"
+    "reactify": "git://github.com/andreypopp/reactify.git#f1c116dcfe50eed7b807ec2cf762839134ba85d9"
   },
   "scripts": {
     "test": "nodeunit test/**/*.js",
