@@ -8,14 +8,14 @@ var KEY_DOWN = 40;
 module.exports = React.createClass({
   componentDidMount: function() {
     var input = this.refs.input.getDOMNode();
-    input.focus();
     bus.on('change:searchAllWindows', input.focus.bind(input));
   },
 
   render: function() {
     return (
       /* jshint ignore:start */
-      <input type='text' ref='input' onKeyDown={this.onKeydown} onChange={this.onChange} />
+      <input type='text' ref='input' autoFocus='true'
+        onKeyDown={this.onKeydown} onChange={this.onChange} />
       /* jshint ignore:end */
     );
   },
