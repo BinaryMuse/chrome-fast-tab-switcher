@@ -2651,8 +2651,9 @@ module.exports = React.createClass({displayName: 'exports',
   },
 
   activateSelection: function() {
-    if (this.state.selected) {
-      tabBroker.switchTo(this.state.selected);
+    var selected = this.state.selected || this.filteredTabs()[0];
+    if (selected) {
+      tabBroker.switchTo(selected);
       bus.emit('exit');
     }
   },
