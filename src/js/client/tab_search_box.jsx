@@ -6,9 +6,8 @@ var KEY_UP = 38;
 var KEY_DOWN = 40;
 
 module.exports = React.createClass({
-  componentDidMount: function() {
-    var input = this.refs.input.getDOMNode();
-    bus.on('change:searchAllWindows', input.focus.bind(input));
+  componentDidUpdate: function() {
+    this.refs.input.getDOMNode().focus();
   },
 
   render: function() {
