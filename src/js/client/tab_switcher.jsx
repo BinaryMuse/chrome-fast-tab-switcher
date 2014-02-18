@@ -58,12 +58,13 @@ module.exports = React.createClass({
 
   render: function() {
     var filteredTabs = this.filteredTabs();
+    var selected = this.state.selected ? this.state.selected : filteredTabs[0];
     return (
       /* jshint ignore:start */
       <div>
         <TabSearchBox filter={this.state.filter} />
         <TabList tabs={filteredTabs} filter={this.state.filter}
-          selectedTab={this.state.selected} />
+          selectedTab={selected} />
         <StatusBar searchAllWindows={this.state.searchAllWindows} />
       </div>
       /* jshint ignore:end */
@@ -73,7 +74,7 @@ module.exports = React.createClass({
   refreshTabs: function() {
     tabBroker.query(this.state.searchAllWindows)
     .then(function(tabs) {
-      this.setState({tabs: tabs}, this.resetSelectedTab);
+      this.setState({tabs: tabs, selected: null});
     }.bind(this));
   },
 
@@ -91,11 +92,6 @@ module.exports = React.createClass({
     }
   },
 
-  resetSelectedTab: function() {
-    var filteredTabs = this.filteredTabs();
-    this.setState({selected: filteredTabs[0]});
-  },
-
   activateSelection: function() {
     if (this.state.selected) {
       tabBroker.switchTo(this.state.selected);
@@ -104,7 +100,7 @@ module.exports = React.createClass({
   },
 
   changeFilter: function(newFilter) {
-    this.setState({filter: newFilter}, this.resetSelectedTab);
+    this.setState({filter: newFilter, selected: null});
   },
 
   changeSelected: function(tab) {
