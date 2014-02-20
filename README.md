@@ -7,6 +7,8 @@ You can [install this extension from the Chrome Web Store](https://chrome.google
 
 ![Demo](demo.gif)
 
+You may also be interested in [the blog post](http://brandontilley.com/2014/02/24/creating-chrome-extensions-with-react.html) I wrote about building this extension with React.
+
 Usage
 -----
 
