@@ -1,9 +1,9 @@
 /**
- * React v0.9.0-rc1
+ * React v0.9.0
  */
 !function(e){if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.React=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ module.exports = AutoFocusMixin;
 
 },{}],2:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -158,7 +158,7 @@ module.exports = CSSProperty;
 
 },{}],3:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -257,7 +257,7 @@ module.exports = CSSPropertyOperations;
 
 },{"./CSSProperty":2,"./dangerousStyleValue":94,"./escapeTextForBrowser":96,"./hyphenate":107,"./memoizeStringOnly":116}],4:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -646,7 +646,7 @@ module.exports = ChangeEventPlugin;
 
 },{"./EventConstants":14,"./EventPluginHub":16,"./EventPropagators":19,"./ExecutionEnvironment":20,"./ReactUpdates":70,"./SyntheticEvent":77,"./isEventSupported":109,"./isTextInputElement":111,"./keyOf":115}],5:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -678,7 +678,7 @@ module.exports = ClientReactRootIndex;
 
 },{}],6:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -940,7 +940,7 @@ module.exports = CompositionEventPlugin;
 
 },{"./EventConstants":14,"./EventPropagators":19,"./ExecutionEnvironment":20,"./ReactInputSelection":52,"./SyntheticCompositionEvent":75,"./getTextContentAccessor":105,"./keyOf":115}],7:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1107,7 +1107,7 @@ module.exports = DOMChildrenOperations;
 
 },{"./Danger":10,"./ReactMultiChildUpdateTypes":58,"./getTextContentAccessor":105}],8:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1377,7 +1377,7 @@ module.exports = DOMProperty;
 
 },{"./invariant":108}],9:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1560,7 +1560,7 @@ module.exports = DOMPropertyOperations;
 
 },{"./DOMProperty":8,"./escapeTextForBrowser":96,"./memoizeStringOnly":116}],10:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1749,7 +1749,7 @@ module.exports = Danger;
 
 },{"./ExecutionEnvironment":20,"./createNodesFromMarkup":92,"./emptyFunction":95,"./getMarkupWrap":102,"./invariant":108}],11:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1809,11 +1809,13 @@ var DefaultDOMPropertyConfig = {
     contentEditable: null,
     contextMenu: MUST_USE_ATTRIBUTE,
     controls: MUST_USE_PROPERTY | HAS_BOOLEAN_VALUE,
+    crossOrigin: null,
     data: null, // For `<object />` acts as `src`.
     dateTime: MUST_USE_ATTRIBUTE,
     defer: HAS_BOOLEAN_VALUE,
     dir: null,
     disabled: MUST_USE_ATTRIBUTE | HAS_BOOLEAN_VALUE,
+    download: null,
     draggable: null,
     encType: null,
     form: MUST_USE_ATTRIBUTE,
@@ -1822,6 +1824,7 @@ var DefaultDOMPropertyConfig = {
     height: MUST_USE_ATTRIBUTE,
     hidden: MUST_USE_ATTRIBUTE | HAS_BOOLEAN_VALUE,
     href: null,
+    hrefLang: null,
     htmlFor: null,
     httpEquiv: null,
     icon: null,
@@ -1832,9 +1835,11 @@ var DefaultDOMPropertyConfig = {
     loop: MUST_USE_PROPERTY | HAS_BOOLEAN_VALUE,
     max: null,
     maxLength: MUST_USE_ATTRIBUTE,
+    mediaGroup: null,
     method: null,
     min: null,
     multiple: MUST_USE_PROPERTY | HAS_BOOLEAN_VALUE,
+    muted: MUST_USE_PROPERTY | HAS_BOOLEAN_VALUE,
     name: null,
     noValidate: HAS_BOOLEAN_VALUE,
     pattern: null,
@@ -1927,6 +1932,7 @@ var DefaultDOMPropertyConfig = {
     autoFocus: 'autofocus',
     autoPlay: 'autoplay',
     encType: 'enctype',
+    hrefLang: 'hreflang',
     radioGroup: 'radiogroup',
     spellCheck: 'spellcheck',
     srcDoc: 'srcdoc'
@@ -1948,7 +1954,7 @@ module.exports = DefaultDOMPropertyConfig;
 
 },{"./DOMProperty":8}],12:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1994,7 +2000,7 @@ module.exports = DefaultEventPluginOrder;
 
 },{"./keyOf":115}],13:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -2141,7 +2147,7 @@ module.exports = EnterLeaveEventPlugin;
 
 },{"./EventConstants":14,"./EventPropagators":19,"./ReactMount":55,"./SyntheticMouseEvent":80,"./keyOf":115}],14:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -2290,7 +2296,7 @@ module.exports = EventListener;
 
 },{"./emptyFunction":95}],16:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -2431,6 +2437,8 @@ var EventPluginHub = {
     injectEventPluginsByName: EventPluginRegistry.injectEventPluginsByName
 
   },
+
+  eventNameDispatchConfigs: EventPluginRegistry.eventNameDispatchConfigs,
 
   registrationNameModules: EventPluginRegistry.registrationNameModules,
 
@@ -2583,7 +2591,7 @@ module.exports = EventPluginHub;
 
 },{"./EventPluginRegistry":17,"./EventPluginUtils":18,"./ExecutionEnvironment":20,"./accumulate":86,"./forEachAccumulated":98,"./invariant":108,"./isEventSupported":109}],17:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -2673,6 +2681,14 @@ function recomputePluginOrdering() {
  * @private
  */
 function publishEventForPlugin(dispatchConfig, PluginModule, eventName) {
+  ("production" !== "development" ? invariant(
+    !EventPluginRegistry.eventNameDispatchConfigs[eventName],
+    'EventPluginHub: More than one plugin attempted to publish the same ' +
+    'event name, `%s`.',
+    eventName
+  ) : invariant(!EventPluginRegistry.eventNameDispatchConfigs[eventName]));
+  EventPluginRegistry.eventNameDispatchConfigs[eventName] = dispatchConfig;
+
   var phasedRegistrationNames = dispatchConfig.phasedRegistrationNames;
   if (phasedRegistrationNames) {
     for (var phaseName in phasedRegistrationNames) {
@@ -2730,7 +2746,12 @@ var EventPluginRegistry = {
   plugins: [],
 
   /**
-   * Mapping from registration names to plugin modules.
+   * Mapping from event name to dispatch config
+   */
+  eventNameDispatchConfigs: {},
+
+  /**
+   * Mapping from registration name to plugin module
    */
   registrationNameModules: {},
 
@@ -2831,6 +2852,14 @@ var EventPluginRegistry = {
       }
     }
     EventPluginRegistry.plugins.length = 0;
+
+    var eventNameDispatchConfigs = EventPluginRegistry.eventNameDispatchConfigs;
+    for (var eventName in eventNameDispatchConfigs) {
+      if (eventNameDispatchConfigs.hasOwnProperty(eventName)) {
+        delete eventNameDispatchConfigs[eventName];
+      }
+    }
+
     var registrationNameModules = EventPluginRegistry.registrationNameModules;
     for (var registrationName in registrationNameModules) {
       if (registrationNameModules.hasOwnProperty(registrationName)) {
@@ -2845,7 +2874,7 @@ module.exports = EventPluginRegistry;
 
 },{"./invariant":108}],18:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -3061,7 +3090,7 @@ module.exports = EventPluginUtils;
 
 },{"./EventConstants":14,"./invariant":108}],19:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -3206,7 +3235,7 @@ module.exports = EventPropagators;
 
 },{"./EventConstants":14,"./EventPluginHub":16,"./accumulate":86,"./forEachAccumulated":98}],20:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -3252,7 +3281,7 @@ module.exports = ExecutionEnvironment;
 
 },{}],21:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -3415,7 +3444,7 @@ module.exports = LinkedValueUtils;
 
 },{"./ReactPropTypes":64,"./invariant":108}],22:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -3480,7 +3509,7 @@ module.exports = MobileSafariClickEventPlugin;
 
 },{"./EventConstants":14,"./emptyFunction":95}],23:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -3601,7 +3630,7 @@ module.exports = PooledClass;
 
 },{"./invariant":108}],24:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -3692,13 +3721,13 @@ if ("production" !== "development") {
 
 // Version exists only in the open-source version of React, not in Facebook's
 // internal version.
-React.version = '0.9.0-rc1';
+React.version = '0.9.0';
 
 module.exports = React;
 
 },{"./DOMPropertyOperations":9,"./EventPluginUtils":18,"./ExecutionEnvironment":20,"./ReactChildren":25,"./ReactComponent":26,"./ReactCompositeComponent":29,"./ReactContext":30,"./ReactCurrentOwner":31,"./ReactDOM":32,"./ReactDOMComponent":34,"./ReactDefaultInjection":44,"./ReactInstanceHandles":53,"./ReactMount":55,"./ReactMultiChild":57,"./ReactPerf":60,"./ReactPropTypes":64,"./ReactServerRendering":68,"./ReactTextComponent":69,"./onlyChild":123}],25:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -3751,7 +3780,7 @@ function forEachSingleChild(traverseContext, child, name, i) {
  * The provided forEachFunc(child, index) will be called for each
  * leaf child.
  *
- * @param {array} children
+ * @param {?*} children Children tree container.
  * @param {function(*, int)} forEachFunc.
  * @param {*} forEachContext Context for forEachContext.
  */
@@ -3806,10 +3835,10 @@ function mapSingleChildIntoContext(traverseContext, child, name, i) {
  * TODO: This may likely break any calls to `ReactChildren.map` that were
  * previously relying on the fact that we guarded against null children.
  *
- * @param {array} children
+ * @param {?*} children Children tree container.
  * @param {function(*, int)} mapFunction.
  * @param {*} mapContext Context for mapFunction.
- * @return {array} mirrored array with mapped children.
+ * @return {object} Object containing the ordered map of results.
  */
 function mapChildren(children, func, context) {
   if (children == null) {
@@ -3832,7 +3861,7 @@ module.exports = ReactChildren;
 
 },{"./PooledClass":23,"./invariant":108,"./traverseAllChildren":128}],26:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -4384,7 +4413,7 @@ module.exports = ReactComponent;
 
 },{"./ReactComponentEnvironment":28,"./ReactCurrentOwner":31,"./ReactOwner":59,"./ReactUpdates":70,"./invariant":108,"./keyMirror":114,"./merge":117}],27:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -4544,7 +4573,7 @@ module.exports = ReactComponentBrowserEnvironment;
 
 },{"./ReactDOMIDOperations":36,"./ReactMarkupChecksum":54,"./ReactMount":55,"./ReactPerf":60,"./ReactReconcileTransaction":66,"./getReactRootElementInContainer":104,"./invariant":108}],28:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -4572,7 +4601,7 @@ module.exports = ReactComponentEnvironment;
 
 },{"./ReactComponentBrowserEnvironment":27}],29:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -6029,7 +6058,7 @@ module.exports = ReactCompositeComponent;
 
 },{"./ReactComponent":26,"./ReactContext":30,"./ReactCurrentOwner":31,"./ReactErrorUtils":47,"./ReactOwner":59,"./ReactPerf":60,"./ReactPropTransferer":61,"./ReactPropTypeLocationNames":62,"./ReactPropTypeLocations":63,"./ReactUpdates":70,"./invariant":108,"./keyMirror":114,"./merge":117,"./mixInto":120,"./objMap":121,"./shouldUpdateReactComponent":126}],30:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -6098,7 +6127,7 @@ module.exports = ReactContext;
 
 },{"./merge":117}],31:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -6139,7 +6168,7 @@ module.exports = ReactCurrentOwner;
 
 },{}],32:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -6348,7 +6377,7 @@ module.exports = ReactDOM;
 
 },{"./ReactDOMComponent":34,"./mergeInto":119,"./objMapKeyVal":122}],33:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -6418,7 +6447,7 @@ module.exports = ReactDOMButton;
 
 },{"./AutoFocusMixin":1,"./ReactCompositeComponent":29,"./ReactDOM":32,"./keyMirror":114}],34:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -6819,7 +6848,7 @@ module.exports = ReactDOMComponent;
 
 },{"./CSSPropertyOperations":3,"./DOMProperty":8,"./DOMPropertyOperations":9,"./ReactComponent":26,"./ReactEventEmitter":48,"./ReactMount":55,"./ReactMultiChild":57,"./ReactPerf":60,"./escapeTextForBrowser":96,"./invariant":108,"./keyOf":115,"./merge":117,"./mixInto":120}],35:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -6880,7 +6909,7 @@ module.exports = ReactDOMForm;
 
 },{"./EventConstants":14,"./ReactCompositeComponent":29,"./ReactDOM":32,"./ReactEventEmitter":48}],36:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -7100,7 +7129,7 @@ module.exports = ReactDOMIDOperations;
 
 },{"./CSSPropertyOperations":3,"./DOMChildrenOperations":7,"./DOMPropertyOperations":9,"./ReactMount":55,"./ReactPerf":60,"./invariant":108}],37:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -7160,7 +7189,7 @@ module.exports = ReactDOMImg;
 
 },{"./EventConstants":14,"./ReactCompositeComponent":29,"./ReactDOM":32,"./ReactEventEmitter":48}],38:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -7343,7 +7372,7 @@ module.exports = ReactDOMInput;
 
 },{"./AutoFocusMixin":1,"./DOMPropertyOperations":9,"./LinkedValueUtils":21,"./ReactCompositeComponent":29,"./ReactDOM":32,"./ReactMount":55,"./invariant":108,"./merge":117}],39:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -7396,7 +7425,7 @@ module.exports = ReactDOMOption;
 
 },{"./ReactCompositeComponent":29,"./ReactDOM":32}],40:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -7577,7 +7606,7 @@ module.exports = ReactDOMSelect;
 
 },{"./AutoFocusMixin":1,"./LinkedValueUtils":21,"./ReactCompositeComponent":29,"./ReactDOM":32,"./invariant":108,"./merge":117}],41:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -7768,7 +7797,7 @@ module.exports = ReactDOMSelection;
 
 },{"./getNodeForCharacterOffset":103,"./getTextContentAccessor":105}],42:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -7910,7 +7939,7 @@ module.exports = ReactDOMTextarea;
 
 },{"./AutoFocusMixin":1,"./DOMPropertyOperations":9,"./LinkedValueUtils":21,"./ReactCompositeComponent":29,"./ReactDOM":32,"./invariant":108,"./merge":117}],43:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -7987,7 +8016,7 @@ module.exports = ReactDefaultBatchingStrategy;
 
 },{"./ReactUpdates":70,"./Transaction":84,"./emptyFunction":95,"./mixInto":120}],44:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -8104,7 +8133,7 @@ module.exports = {
 
 },{"./ChangeEventPlugin":4,"./ClientReactRootIndex":5,"./CompositionEventPlugin":6,"./DefaultDOMPropertyConfig":11,"./DefaultEventPluginOrder":12,"./EnterLeaveEventPlugin":13,"./ExecutionEnvironment":20,"./MobileSafariClickEventPlugin":22,"./ReactDOM":32,"./ReactDOMButton":33,"./ReactDOMForm":35,"./ReactDOMImg":37,"./ReactDOMInput":38,"./ReactDOMOption":39,"./ReactDOMSelect":40,"./ReactDOMTextarea":42,"./ReactDefaultBatchingStrategy":43,"./ReactDefaultPerf":45,"./ReactEventTopLevelCallback":50,"./ReactInjection":51,"./ReactInstanceHandles":53,"./ReactMount":55,"./SelectEventPlugin":71,"./ServerReactRootIndex":72,"./SimpleEventPlugin":73,"./createFullPageComponent":91}],45:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -8350,7 +8379,7 @@ module.exports = ReactDefaultPerf;
 
 },{"./DOMProperty":8,"./ReactDefaultPerfAnalysis":46,"./ReactMount":55,"./ReactPerf":60,"./performanceNow":124}],46:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -8551,7 +8580,7 @@ module.exports = ReactDefaultPerfAnalysis;
 
 },{"./merge":117}],47:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -8590,7 +8619,7 @@ module.exports = ReactErrorUtils;
 
 },{}],48:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -8909,6 +8938,8 @@ var ReactEventEmitter = merge(ReactEventEmitterMixin, {
     }
   },
 
+  eventNameDispatchConfigs: EventPluginHub.eventNameDispatchConfigs,
+
   registrationNameModules: EventPluginHub.registrationNameModules,
 
   putListener: EventPluginHub.putListener,
@@ -8929,7 +8960,7 @@ module.exports = ReactEventEmitter;
 
 },{"./EventConstants":14,"./EventListener":15,"./EventPluginHub":16,"./EventPluginRegistry":17,"./ExecutionEnvironment":20,"./ReactEventEmitterMixin":49,"./ViewportMetrics":85,"./invariant":108,"./isEventSupported":109,"./merge":117}],49:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -8988,7 +9019,7 @@ module.exports = ReactEventEmitterMixin;
 
 },{"./EventPluginHub":16,"./ReactUpdates":70}],50:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -9008,11 +9039,13 @@ module.exports = ReactEventEmitterMixin;
 
 "use strict";
 
+var PooledClass = require("./PooledClass");
 var ReactEventEmitter = require("./ReactEventEmitter");
 var ReactInstanceHandles = require("./ReactInstanceHandles");
 var ReactMount = require("./ReactMount");
 
 var getEventTarget = require("./getEventTarget");
+var mixInto = require("./mixInto");
 
 /**
  * @type {boolean}
@@ -9037,6 +9070,53 @@ function findParent(node) {
   var parent = ReactMount.getFirstReactDOM(container);
   return parent;
 }
+
+/**
+ * Calls ReactEventEmitter.handleTopLevel for each node stored in bookKeeping's
+ * ancestor list. Separated from createTopLevelCallback to avoid try/finally
+ * deoptimization.
+ *
+ * @param {string} topLevelType
+ * @param {DOMEvent} nativeEvent
+ * @param {TopLevelCallbackBookKeeping} bookKeeping
+ */
+function handleTopLevelImpl(topLevelType, nativeEvent, bookKeeping) {
+  var topLevelTarget = ReactMount.getFirstReactDOM(
+    getEventTarget(nativeEvent)
+  ) || window;
+
+  // Loop through the hierarchy, in case there's any nested components.
+  // It's important that we build the array of ancestors before calling any
+  // event handlers, because event handlers can modify the DOM, leading to
+  // inconsistencies with ReactMount's node cache. See #1105.
+  var ancestor = topLevelTarget;
+  while (ancestor) {
+    bookKeeping.ancestors.push(ancestor);
+    ancestor = findParent(ancestor);
+  }
+
+  for (var i = 0, l = bookKeeping.ancestors.length; i < l; i++) {
+    topLevelTarget = bookKeeping.ancestors[i];
+    var topLevelTargetID = ReactMount.getID(topLevelTarget) || '';
+    ReactEventEmitter.handleTopLevel(
+      topLevelType,
+      topLevelTarget,
+      topLevelTargetID,
+      nativeEvent
+    );
+  }
+}
+
+// Used to store ancestor hierarchy in top level callback
+function TopLevelCallbackBookKeeping() {
+  this.ancestors = [];
+}
+mixInto(TopLevelCallbackBookKeeping, {
+  destructor: function() {
+    this.ancestors.length = 0;
+  }
+});
+PooledClass.addPoolingTo(TopLevelCallbackBookKeeping);
 
 /**
  * Top-level callback creator used to implement event handling using delegation.
@@ -9074,21 +9154,12 @@ var ReactEventTopLevelCallback = {
       if (!_topLevelListenersEnabled) {
         return;
       }
-      var topLevelTarget = ReactMount.getFirstReactDOM(
-        getEventTarget(nativeEvent)
-      ) || window;
 
-      // Loop through the hierarchy, in case there's any nested components.
-      while (topLevelTarget) {
-        var topLevelTargetID = ReactMount.getID(topLevelTarget) || '';
-        ReactEventEmitter.handleTopLevel(
-          topLevelType,
-          topLevelTarget,
-          topLevelTargetID,
-          nativeEvent
-        );
-
-        topLevelTarget = findParent(topLevelTarget);
+      var bookKeeping = TopLevelCallbackBookKeeping.getPooled();
+      try {
+        handleTopLevelImpl(topLevelType, nativeEvent, bookKeeping);
+      } finally {
+        TopLevelCallbackBookKeeping.release(bookKeeping);
       }
     };
   }
@@ -9097,9 +9168,9 @@ var ReactEventTopLevelCallback = {
 
 module.exports = ReactEventTopLevelCallback;
 
-},{"./ReactEventEmitter":48,"./ReactInstanceHandles":53,"./ReactMount":55,"./getEventTarget":101}],51:[function(require,module,exports){
+},{"./PooledClass":23,"./ReactEventEmitter":48,"./ReactInstanceHandles":53,"./ReactMount":55,"./getEventTarget":101,"./mixInto":120}],51:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -9140,7 +9211,7 @@ module.exports = ReactInjection;
 
 },{"./DOMProperty":8,"./EventPluginHub":16,"./ReactDOM":32,"./ReactEventEmitter":48,"./ReactPerf":60,"./ReactRootIndex":67,"./ReactUpdates":70}],52:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -9282,7 +9353,7 @@ module.exports = ReactInputSelection;
 
 },{"./ReactDOMSelection":41,"./containsNode":88,"./getActiveElement":99}],53:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -9622,7 +9693,7 @@ module.exports = ReactInstanceHandles;
 
 },{"./ReactRootIndex":67,"./invariant":108}],54:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -9677,7 +9748,7 @@ module.exports = ReactMarkupChecksum;
 
 },{"./adler32":87}],55:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -10320,7 +10391,7 @@ module.exports = ReactMount;
 
 },{"./DOMProperty":8,"./ReactEventEmitter":48,"./ReactInstanceHandles":53,"./ReactPerf":60,"./containsNode":88,"./getReactRootElementInContainer":104,"./invariant":108,"./shouldUpdateReactComponent":126}],56:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -10417,7 +10488,7 @@ module.exports = ReactMountReady;
 
 },{"./PooledClass":23,"./mixInto":120}],57:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -10844,7 +10915,7 @@ module.exports = ReactMultiChild;
 
 },{"./ReactComponent":26,"./ReactMultiChildUpdateTypes":58,"./flattenChildren":97,"./shouldUpdateReactComponent":126}],58:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -10884,7 +10955,7 @@ module.exports = ReactMultiChildUpdateTypes;
 
 },{"./keyMirror":114}],59:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11040,7 +11111,7 @@ module.exports = ReactOwner;
 
 },{"./invariant":108}],60:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11127,7 +11198,7 @@ module.exports = ReactPerf;
 
 },{}],61:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11276,7 +11347,7 @@ module.exports = ReactPropTransferer;
 
 },{"./emptyFunction":95,"./invariant":108,"./joinClasses":113,"./merge":117}],62:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11309,7 +11380,7 @@ module.exports = ReactPropTypeLocationNames;
 
 },{}],63:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11340,7 +11411,7 @@ module.exports = ReactPropTypeLocations;
 
 },{"./keyMirror":114}],64:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11486,7 +11557,7 @@ function createPrimitiveTypeChecker(expectedType) {
     var propType = getPropType(propValue);
     var isValid = propType === expectedType;
     if (shouldWarn) {
-      warning(
+      ("production" !== "development" ? warning(
         isValid,
         'Invalid %s `%s` of type `%s` supplied to `%s`, expected `%s`.',
         ReactPropTypeLocationNames[location],
@@ -11494,7 +11565,7 @@ function createPrimitiveTypeChecker(expectedType) {
         propType,
         componentName,
         expectedType
-      );
+      ) : null);
     }
     return isValid;
   }
@@ -11508,14 +11579,14 @@ function createEnumTypeChecker(expectedValues) {
   ) {
     var isValid = expectedEnum[propValue];
     if (shouldWarn) {
-      warning(
+      ("production" !== "development" ? warning(
         isValid,
         'Invalid %s `%s` supplied to `%s`, expected one of %s.',
         ReactPropTypeLocationNames[location],
         propName,
         componentName,
         JSON.stringify(Object.keys(expectedEnum))
-      );
+      ) : null);
     }
     return isValid;
   }
@@ -11537,14 +11608,14 @@ function createShapeTypeChecker(shapeTypes) {
       }
     }
     if (shouldWarn) {
-      warning(
+      ("production" !== "development" ? warning(
         isValid,
         'Invalid %s `%s` of type `%s` supplied to `%s`, expected `object`.',
         ReactPropTypeLocationNames[location],
         propName,
         propType,
         componentName
-      );
+      ) : null);
     }
     return isValid;
   }
@@ -11557,14 +11628,14 @@ function createInstanceTypeChecker(expectedClass) {
   ) {
     var isValid = propValue instanceof expectedClass;
     if (shouldWarn) {
-      warning(
+      ("production" !== "development" ? warning(
         isValid,
         'Invalid %s `%s` supplied to `%s`, expected instance of `%s`.',
         ReactPropTypeLocationNames[location],
         propName,
         componentName,
         expectedClass.name || ANONYMOUS
-      );
+      ) : null);
     }
     return isValid;
   }
@@ -11584,13 +11655,13 @@ function createArrayOfTypeChecker(propTypeChecker) {
       }
     }
     if (shouldWarn) {
-      warning(
+      ("production" !== "development" ? warning(
         isValid,
         'Invalid %s `%s` supplied to `%s`, expected an array.',
         ReactPropTypeLocationNames[location],
         propName,
         componentName
-      );
+      ) : null);
     }
     return isValid;
   }
@@ -11603,13 +11674,13 @@ function createRenderableTypeChecker() {
   ) {
     var isValid = isRenderable(propValue);
     if (shouldWarn) {
-      warning(
+      ("production" !== "development" ? warning(
         isValid,
         'Invalid %s `%s` supplied to `%s`, expected a renderable prop.',
         ReactPropTypeLocationNames[location],
         propName,
         componentName
-      );
+      ) : null);
     }
     return isValid;
   }
@@ -11622,13 +11693,13 @@ function createComponentTypeChecker() {
   ) {
     var isValid = ReactComponent.isValidComponent(propValue);
     if (shouldWarn) {
-      warning(
+      ("production" !== "development" ? warning(
         isValid,
         'Invalid %s `%s` supplied to `%s`, expected a React component.',
         ReactPropTypeLocationNames[location],
         propName,
         componentName
-      );
+      ) : null);
     }
     return isValid;
   }
@@ -11648,13 +11719,13 @@ function createUnionTypeChecker(arrayOfValidators) {
         break;
       }
     }
-    warning(
+    ("production" !== "development" ? warning(
       isValid,
       'Invalid %s `%s` supplied to `%s`.',
       ReactPropTypeLocationNames[location],
       propName,
       componentName || ANONYMOUS
-    );
+    ) : null);
     return isValid;
   };
 }
@@ -11676,13 +11747,13 @@ function createChainableTypeChecker(validate) {
     } else {
       var isValid = !isRequired;
       if (shouldWarn) {
-        warning(
+        ("production" !== "development" ? warning(
           isValid,
           'Required %s `%s` was not specified in `%s`.',
           ReactPropTypeLocationNames[location],
           propName,
           componentName || ANONYMOUS
-        );
+        ) : null);
       }
       return isValid;
     }
@@ -11701,7 +11772,7 @@ module.exports = Props;
 
 },{"./ReactComponent":26,"./ReactPropTypeLocationNames":62,"./createObjectFrom":93,"./warning":129}],65:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11764,7 +11835,7 @@ module.exports = ReactPutListenerQueue;
 
 },{"./PooledClass":23,"./ReactEventEmitter":48,"./mixInto":120}],66:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11947,7 +12018,7 @@ module.exports = ReactReconcileTransaction;
 
 },{"./ExecutionEnvironment":20,"./PooledClass":23,"./ReactEventEmitter":48,"./ReactInputSelection":52,"./ReactMountReady":56,"./ReactPutListenerQueue":65,"./Transaction":84,"./mixInto":120}],67:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11985,7 +12056,7 @@ module.exports = ReactRootIndex;
 
 },{}],68:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12046,7 +12117,7 @@ module.exports = {
 
 },{"./ReactComponent":26,"./ReactInstanceHandles":53,"./ReactMarkupChecksum":54,"./ReactReconcileTransaction":66,"./invariant":108}],69:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12147,7 +12218,7 @@ module.exports = ReactTextComponent;
 
 },{"./DOMPropertyOperations":9,"./ReactComponent":26,"./escapeTextForBrowser":96,"./mixInto":120}],70:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12297,7 +12368,7 @@ module.exports = ReactUpdates;
 
 },{"./ReactPerf":60,"./invariant":108}],71:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12499,7 +12570,7 @@ module.exports = SelectEventPlugin;
 
 },{"./EventConstants":14,"./EventPropagators":19,"./ReactInputSelection":52,"./SyntheticEvent":77,"./getActiveElement":99,"./isTextInputElement":111,"./keyOf":115,"./shallowEqual":125}],72:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12537,7 +12608,7 @@ module.exports = ServerReactRootIndex;
 
 },{}],73:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12952,7 +13023,7 @@ module.exports = SimpleEventPlugin;
 
 },{"./EventConstants":14,"./EventPluginUtils":18,"./EventPropagators":19,"./SyntheticClipboardEvent":74,"./SyntheticDragEvent":76,"./SyntheticEvent":77,"./SyntheticFocusEvent":78,"./SyntheticKeyboardEvent":79,"./SyntheticMouseEvent":80,"./SyntheticTouchEvent":81,"./SyntheticUIEvent":82,"./SyntheticWheelEvent":83,"./invariant":108,"./keyOf":115}],74:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13005,7 +13076,7 @@ module.exports = SyntheticClipboardEvent;
 
 },{"./SyntheticEvent":77}],75:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13058,7 +13129,7 @@ module.exports = SyntheticCompositionEvent;
 
 },{"./SyntheticEvent":77}],76:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13104,7 +13175,7 @@ module.exports = SyntheticDragEvent;
 
 },{"./SyntheticMouseEvent":80}],77:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13270,7 +13341,7 @@ module.exports = SyntheticEvent;
 
 },{"./PooledClass":23,"./emptyFunction":95,"./getEventTarget":101,"./merge":117,"./mergeInto":119}],78:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13316,7 +13387,7 @@ module.exports = SyntheticFocusEvent;
 
 },{"./SyntheticUIEvent":82}],79:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13376,7 +13447,7 @@ module.exports = SyntheticKeyboardEvent;
 
 },{"./SyntheticUIEvent":82,"./getEventKey":100}],80:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13463,7 +13534,7 @@ module.exports = SyntheticMouseEvent;
 
 },{"./SyntheticUIEvent":82,"./ViewportMetrics":85}],81:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13515,7 +13586,7 @@ module.exports = SyntheticTouchEvent;
 
 },{"./SyntheticUIEvent":82}],82:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13562,7 +13633,7 @@ module.exports = SyntheticUIEvent;
 
 },{"./SyntheticEvent":77}],83:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13630,7 +13701,7 @@ module.exports = SyntheticWheelEvent;
 
 },{"./SyntheticMouseEvent":80}],84:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13908,7 +13979,7 @@ module.exports = Transaction;
 
 },{"./invariant":108}],85:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13947,7 +14018,7 @@ module.exports = ViewportMetrics;
 
 },{"./getUnboundedScrollPosition":106}],86:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14003,7 +14074,7 @@ module.exports = accumulate;
 
 },{"./invariant":108}],87:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14044,7 +14115,7 @@ module.exports = adler32;
 
 },{}],88:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14095,7 +14166,7 @@ module.exports = containsNode;
 
 },{"./isTextNode":112}],89:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14151,7 +14222,7 @@ module.exports = copyProperties;
 
 },{}],90:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14244,7 +14315,7 @@ module.exports = createArrayFrom;
 
 },{"./toArray":127}],91:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14309,7 +14380,7 @@ module.exports = createFullPageComponent;
 
 },{"./ReactCompositeComponent":29,"./invariant":108}],92:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14404,7 +14475,7 @@ module.exports = createNodesFromMarkup;
 
 },{"./ExecutionEnvironment":20,"./createArrayFrom":90,"./getMarkupWrap":102,"./invariant":108}],93:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14467,7 +14538,7 @@ module.exports = createObjectFrom;
 
 },{}],94:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14526,7 +14597,7 @@ module.exports = dangerousStyleValue;
 
 },{"./CSSProperty":2}],95:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14571,7 +14642,7 @@ module.exports = emptyFunction;
 
 },{"./copyProperties":89}],96:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14620,7 +14691,7 @@ module.exports = escapeTextForBrowser;
 
 },{}],97:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14679,7 +14750,7 @@ module.exports = flattenChildren;
 
 },{"./invariant":108,"./traverseAllChildren":128}],98:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14717,7 +14788,7 @@ module.exports = forEachAccumulated;
 
 },{}],99:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14753,7 +14824,7 @@ module.exports = getActiveElement;
 
 },{}],100:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14840,7 +14911,7 @@ module.exports = getEventKey;
 
 },{}],101:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14878,7 +14949,7 @@ module.exports = getEventTarget;
 
 },{}],102:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14998,7 +15069,7 @@ module.exports = getMarkupWrap;
 
 },{"./ExecutionEnvironment":20,"./invariant":108}],103:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15080,7 +15151,7 @@ module.exports = getNodeForCharacterOffset;
 
 },{}],104:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15122,7 +15193,7 @@ module.exports = getReactRootElementInContainer;
 
 },{}],105:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15166,7 +15237,7 @@ module.exports = getTextContentAccessor;
 
 },{"./ExecutionEnvironment":20}],106:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15213,7 +15284,7 @@ module.exports = getUnboundedScrollPosition;
 
 },{}],107:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15250,7 +15321,7 @@ module.exports = hyphenate;
 
 },{}],108:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15267,6 +15338,8 @@ module.exports = hyphenate;
  * @providesModule invariant
  */
 
+"use strict";
+
 /**
  * Use invariant() to assert state which your program assumes to be true.
  *
@@ -15278,7 +15351,7 @@ module.exports = hyphenate;
  * will remain to ensure logic does not differ in production.
  */
 
-function invariant(condition) {
+var invariant = function(condition) {
   if (!condition) {
     var error = new Error(
       'Minified exception occured; use the non-minified dev environment for ' +
@@ -15287,12 +15360,10 @@ function invariant(condition) {
     error.framesToPop = 1;
     throw error;
   }
-}
-
-module.exports = invariant;
+};
 
 if ("production" !== "development") {
-  var invariantDev = function(condition, format, a, b, c, d, e, f) {
+  invariant = function(condition, format, a, b, c, d, e, f) {
     if (format === undefined) {
       throw new Error('invariant requires an error message argument');
     }
@@ -15308,13 +15379,13 @@ if ("production" !== "development") {
       throw error;
     }
   };
-
-  module.exports = invariantDev;
 }
+
+module.exports = invariant;
 
 },{}],109:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15386,7 +15457,7 @@ module.exports = isEventSupported;
 
 },{"./ExecutionEnvironment":20}],110:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15421,7 +15492,7 @@ module.exports = isNode;
 
 },{}],111:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15472,7 +15543,7 @@ module.exports = isTextInputElement;
 
 },{}],112:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15504,7 +15575,7 @@ module.exports = isTextNode;
 
 },{"./isNode":110}],113:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15550,7 +15621,7 @@ module.exports = joinClasses;
 
 },{}],114:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15610,7 +15681,7 @@ module.exports = keyMirror;
 
 },{"./invariant":108}],115:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15653,7 +15724,7 @@ module.exports = keyOf;
 
 },{}],116:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15694,7 +15765,7 @@ module.exports = memoizeStringOnly;
 
 },{}],117:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15733,7 +15804,7 @@ module.exports = merge;
 
 },{"./mergeInto":119}],118:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15871,7 +15942,7 @@ module.exports = mergeHelpers;
 
 },{"./invariant":108,"./keyMirror":114}],119:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15918,7 +15989,7 @@ module.exports = mergeInto;
 
 },{"./mergeHelpers":118}],120:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15954,7 +16025,7 @@ module.exports = mixInto;
 
 },{}],121:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16003,7 +16074,7 @@ module.exports = objMap;
 
 },{}],122:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16052,7 +16123,7 @@ module.exports = objMapKeyVal;
 
 },{}],123:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16097,7 +16168,7 @@ module.exports = onlyChild;
 
 },{"./ReactComponent":26,"./invariant":108}],124:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16141,7 +16212,7 @@ module.exports = performanceNow;
 
 },{"./ExecutionEnvironment":20}],125:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16192,7 +16263,7 @@ module.exports = shallowEqual;
 
 },{}],126:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16329,7 +16400,7 @@ module.exports = toArray;
 
 },{"./invariant":108}],128:[function(require,module,exports){
 /**
- * Copyright 2013 Facebook, Inc.
+ * Copyright 2013-2014 Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16537,6 +16608,9 @@ module.exports = traverseAllChildren;
  * @providesModule warning
  */
 
+"use strict";
+
+var emptyFunction = require("./emptyFunction");
 
 /**
  * Similar to invariant but only logs a warning if the condition is not met.
@@ -16544,22 +16618,27 @@ module.exports = traverseAllChildren;
  * paths. Removing the logging code for production environments will keep the
  * same logic and follow the same code paths.
  */
-function warning(condition, format ) {var args=Array.prototype.slice.call(arguments,2);
-  if (format === undefined) {
-    throw new Error(
-      '`warning(condition, format, ...args)` requires a warning ' +
-      'message argument'
-    );
-  }
 
-  if (!condition) {
-    var argIndex = 0;
-    console.warn('Warning: ' + format.replace(/%s/g, function()  {return args[argIndex++];}));
-  }
+var warning = emptyFunction;
+
+if ("production" !== "development") {
+  warning = function(condition, format ) {var args=Array.prototype.slice.call(arguments,2);
+    if (format === undefined) {
+      throw new Error(
+        '`warning(condition, format, ...args)` requires a warning ' +
+        'message argument'
+      );
+    }
+
+    if (!condition) {
+      var argIndex = 0;
+      console.warn('Warning: ' + format.replace(/%s/g, function()  {return args[argIndex++];}));
+    }
+  };
 }
 
 module.exports = warning;
 
-},{}]},{},[24])
+},{"./emptyFunction":95}]},{},[24])
 (24)
 });

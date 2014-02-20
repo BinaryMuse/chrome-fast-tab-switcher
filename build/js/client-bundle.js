@@ -2302,7 +2302,7 @@ React.renderComponent(TabSwitcher(null ), document.getElementById('switcher'));
 /* jshint ignore:end */
 
 },{"./client/tab_switcher.jsx":13}],5:[function(require,module,exports){
-/** @jsx React.DOM */var EventEmitter = require('events').EventEmitter;
+var EventEmitter = require('events').EventEmitter;
 
 module.exports = new EventEmitter();
 
@@ -2328,7 +2328,7 @@ module.exports = React.createClass({displayName: 'exports',
 });
 
 },{"./bus":5}],7:[function(require,module,exports){
-/** @jsx React.DOM */var sections = function(haystack, needle, remaining, acc, offset) {
+var sections = function(haystack, needle, remaining, acc, offset) {
   if (!acc) acc = [];
   if (!remaining) remaining = "";
   if (!offset) offset = 0;
@@ -2375,7 +2375,7 @@ module.exports = function(haystack, needle, pre, post) {
 };
 
 },{}],8:[function(require,module,exports){
-/** @jsx React.DOM */var Q = require('q');
+var Q = require('q');
 var util = require('../util');
 
 module.exports = function(chrome) {
@@ -2413,7 +2413,7 @@ module.exports = function(chrome) {
 };
 
 },{"../util":14,"q":3}],9:[function(require,module,exports){
-/** @jsx React.DOM *//**
+/**
  * A tab filter is simply a function that takes a string to filter
  * on and an array of tabs; it will determine if the tab title or URL
  * match, based on the passed in `scorer`, and will rank them accordingly.
@@ -2695,7 +2695,7 @@ module.exports = React.createClass({displayName: 'exports',
 });
 
 },{"../../../vendor/string_score":15,"./bus":5,"./status_bar.jsx":6,"./tab_broker":8,"./tab_filter":9,"./tab_list.jsx":11,"./tab_search_box.jsx":12}],14:[function(require,module,exports){
-/** @jsx React.DOM */var Q = require('q');
+var Q = require('q');
 
 module.exports = {
   // `pcall` takes a function that takes a set of arguments and
@@ -2714,7 +2714,7 @@ module.exports = {
 };
 
 },{"q":3}],15:[function(require,module,exports){
-/** @jsx React.DOM *//*!
+/*!
  * string_score.js: String Scoring Algorithm 0.1.20
  *
  * http://joshaven.com/string_score
