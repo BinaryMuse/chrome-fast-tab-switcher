@@ -6,7 +6,7 @@ exports.query = {
     var chrome = {
       runtime: {
         sendMessage: function(opts, callback) {
-          callback({tabs: [{id: 2}, {id: 1}, {id: 3}], lastActive: 2});
+          callback({tabs: [{id: 1}, {id: 2}, {id: 3}], lastActive: 2});
         }
       }
     };
