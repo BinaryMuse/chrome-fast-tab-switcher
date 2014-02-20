@@ -1,6 +1,6 @@
 {
   "name": "chrome-fast-tab-switcher",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Chrome extension to quickly switch to other open tabs with just your keyboard",
   "devDependencies": {
     "watchify": "~0.6.1",
