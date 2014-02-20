@@ -2022,6 +2022,8 @@ chrome.windows.onRemoved.addListener(function(windowId) {
   tabHistory.removeHistoryForWindow(windowId);
 });
 
+// Add the currently active tab for each window to the history
+// if they're not already the most recent active tab.
 tabHistory.getActiveTabs().then(function(tabs) {
   for (var idx in tabs) {
     var tab = tabs[idx];

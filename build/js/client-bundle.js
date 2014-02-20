@@ -2454,12 +2454,15 @@ module.exports = React.createClass({displayName: 'exports',
   render: function() {
     return (
       /* jshint ignore:start */
-      React.DOM.li( {className:this.className(), onClick:this.onClick, onMouseEnter:this.onMouseEnter}, 
+      React.DOM.li( {className:this.className(),
+        onClick:this.onClick, onMouseEnter:this.onMouseEnter}, 
         React.DOM.div(null, 
           React.DOM.div( {className:"bkg", style:this.iconBkg(this.props.tab)} ),
-          React.DOM.span( {className:"title", dangerouslySetInnerHTML:{__html: this.tabTitle(this.props.tab)}} )
+          React.DOM.span( {className:"title",
+            dangerouslySetInnerHTML:{__html: this.tabTitle(this.props.tab)}} )
         ),
-        React.DOM.div( {className:"url", dangerouslySetInnerHTML:{__html: this.tabUrl(this.props.tab)}} )
+        React.DOM.div( {className:"url",
+          dangerouslySetInnerHTML:{__html: this.tabUrl(this.props.tab)}} )
       )
       /* jshint ignore:end */
     );

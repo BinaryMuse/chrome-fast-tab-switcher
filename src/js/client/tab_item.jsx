@@ -8,12 +8,15 @@ module.exports = React.createClass({
   render: function() {
     return (
       /* jshint ignore:start */
-      <li className={this.className()} onClick={this.onClick} onMouseEnter={this.onMouseEnter}>
+      <li className={this.className()}
+        onClick={this.onClick} onMouseEnter={this.onMouseEnter}>
         <div>
           <div className='bkg' style={this.iconBkg(this.props.tab)} />
-          <span className='title' dangerouslySetInnerHTML={{__html: this.tabTitle(this.props.tab)}} />
+          <span className='title'
+            dangerouslySetInnerHTML={{__html: this.tabTitle(this.props.tab)}} />
         </div>
-        <div className='url' dangerouslySetInnerHTML={{__html: this.tabUrl(this.props.tab)}} />
+        <div className='url'
+          dangerouslySetInnerHTML={{__html: this.tabUrl(this.props.tab)}} />
       </li>
       /* jshint ignore:end */
     );
