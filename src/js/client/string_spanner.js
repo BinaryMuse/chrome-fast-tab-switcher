@@ -8,7 +8,8 @@ var sections = function(haystack, needle, remaining, acc, offset) {
   if (index > -1) {
     if (remaining.length) {
       var remainingHaystack = haystack.substr(needle.length + index);
-      return sections(remainingHaystack, remaining, null, acc.concat([[offset + index, offset + needle.length + index]]), offset + needle.length + index);
+      var newAcc = acc.concat([[offset + index, offset + needle.length + index]]);
+      return sections(remainingHaystack, remaining, null, newAcc, offset + needle.length + index);
     } else {
       return acc.concat([[offset + index, offset + needle.length + index]]);
     }
