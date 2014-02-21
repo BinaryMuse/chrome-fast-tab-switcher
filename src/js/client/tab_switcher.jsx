@@ -1,4 +1,3 @@
-var bus = require('./bus');
 var stringScore = require('../../../vendor/string_score');
 var tabBroker = require('./tab_broker')(chrome);
 var tabFilter = require('./tab_filter')(stringScore);
@@ -6,24 +5,6 @@ var tabFilter = require('./tab_filter')(stringScore);
 var TabSearchBox = require('./tab_search_box.jsx');
 var TabList = require('./tab_list.jsx');
 var StatusBar = require('./status_bar.jsx');
-
-/**
- * TabSwitcher is the main component of our application. It contains
- * all the state, and all other components communicate their intent
- * to change that state via events on the bus (which is a Node.js
- * EventEmitter). All child components receive their data via properties.
- *
- * Bus events:
- * - change:searchAllWindows(boolean) - the 'search all windows'
- *   option was toggled
- * - change:filter(string) - the filter text was changed
- * - change:selected(tab) - the selected tab was changed
- * - action:activate - the user wishes to swich to the currently
- *   selected tab
- * - select:previous - the tab above the selected one should be selected
- * - select:next - the tab below the selected one should be selected
- * - exit - the extension should exit, closing the window
- */
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -44,15 +25,7 @@ module.exports = React.createClass({
   },
 
   componentDidMount: function() {
-    bus.on('change:filter', this.changeFilter);
-    bus.on('change:selected', this.changeSelected);
-    bus.on('change:searchAllWindows', this.changeSearchAllWindows);
-    bus.on('select:previous', this.moveSelection.bind(this, -1));
-    bus.on('select:next', this.moveSelection.bind(this, 1));
-    bus.on('action:activate', this.activateSelection);
-    bus.on('exit', this.close);
     window.onblur = this.close;
-
     this.refreshTabs();
   },
 
@@ -60,10 +33,21 @@ module.exports = React.createClass({
     return (
       /* jshint ignore:start */
       <div>
-        <TabSearchBox filter={this.state.filter} />
-        <TabList tabs={this.filteredTabs()} filter={this.state.filter}
-          selectedTab={this.getSelected()} />
-        <StatusBar searchAllWindows={this.state.searchAllWindows} />
+        <TabSearchBox
+          filter={this.state.filter}
+          exit={this.close}
+          changeFilter={this.changeFilter}
+          activateSelected={this.activateSelected}
+          modifySelected={this.modifySelected} />
+        <TabList
+          tabs={this.filteredTabs()}
+          filter={this.state.filter}
+          selectedTab={this.getSelected()}
+          changeSelected={this.changeSelected}
+          activateSelected={this.activateSelected} />
+        <StatusBar
+          searchAllWindows={this.state.searchAllWindows}
+          changeSearchAllWindows={this.changeSearchAllWindows} />
       </div>
       /* jshint ignore:end */
     );
@@ -94,11 +78,11 @@ module.exports = React.createClass({
     return this.state.selected || this.filteredTabs()[0];
   },
 
-  activateSelection: function() {
+  activateSelected: function() {
     var selected = this.getSelected();
     if (selected) {
       tabBroker.switchTo(selected);
-      bus.emit('exit');
+      this.close();
     }
   },
 
@@ -110,7 +94,7 @@ module.exports = React.createClass({
     this.setState({selected: tab});
   },
 
-  moveSelection: function(change) {
+  modifySelected: function(change) {
     var filteredTabs = this.filteredTabs();
     if (!filteredTabs.length) return;
 
@@ -119,7 +103,7 @@ module.exports = React.createClass({
     if (newIndex < 0) newIndex = 0;
     if (newIndex >= filteredTabs.length) newIndex = filteredTabs.length - 1;
     var newTab = filteredTabs[newIndex];
-    bus.emit('change:selected', newTab);
+    this.changeSelected(newTab);
   },
 
   changeSearchAllWindows: function(value) {

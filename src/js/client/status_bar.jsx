@@ -1,5 +1,3 @@
-var bus = require('./bus');
-
 module.exports = React.createClass({
   render: function() {
     return (
@@ -14,6 +12,6 @@ module.exports = React.createClass({
   },
 
   onChange: function(evt) {
-    bus.emit('change:searchAllWindows', evt.target.checked);
+    this.props.changeSearchAllWindows(evt.target.checked);
   }
 });

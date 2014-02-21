@@ -1,5 +1,3 @@
-var bus = require('./bus');
-
 var KEY_ENTER = 13;
 var KEY_ESC = 27;
 var KEY_UP = 38;
@@ -22,17 +20,17 @@ module.exports = React.createClass({
   onKeydown: function(evt) {
     switch (evt.which) {
     case KEY_ESC:
-      bus.emit('exit');
+      this.props.exit();
       break;
     case KEY_ENTER:
-      bus.emit('action:activate');
+      this.props.activateSelected();
       break;
     case KEY_UP:
-      bus.emit('select:previous');
+      this.props.modifySelected(-1);
       evt.preventDefault();
       break;
     case KEY_DOWN:
-      bus.emit('select:next');
+      this.props.modifySelected(1);
       evt.preventDefault();
       break;
     }
@@ -40,6 +38,6 @@ module.exports = React.createClass({
 
   onChange: function(evt) {
     if (event.target.value !== this.props.filter)
-      bus.emit('change:filter', event.target.value);
+      this.props.changeFilter(event.target.value);
   }
 });

@@ -1,4 +1,3 @@
-var bus = require('./bus');
 var stringSpanner = require('./string_spanner');
 
 var MATCH_START = '<span class="match">';
@@ -39,10 +38,10 @@ module.exports = React.createClass({
   },
 
   onMouseEnter: function(evt) {
-    bus.emit('change:selected', this.props.tab);
+    this.props.changeSelected(this.props.tab);
   },
 
   onClick: function(evt) {
-    bus.emit('action:activate');
+    this.props.activateSelected();
   }
 });

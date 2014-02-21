@@ -7,7 +7,9 @@ module.exports = React.createClass({
       <ul>
         {this.props.tabs.map(function(tab, i) {
           return <TabItem tab={tab} key={tab.id} filter={this.props.filter}
-            selected={this.props.selectedTab === tab} />;
+            selected={this.props.selectedTab === tab}
+            changeSelected={this.props.changeSelected}
+            activateSelected={this.props.activateSelected} />;
         }.bind(this))}
       </ul>
       /* jshint ignore:end */
