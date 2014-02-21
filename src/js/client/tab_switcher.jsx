@@ -1,4 +1,4 @@
-var stringScore = require('../../../vendor/string_score');
+var stringScore = require('../../../lib/string_score');
 var tabBroker = require('./tab_broker')(chrome);
 var tabFilter = require('./tab_filter')(stringScore);
 

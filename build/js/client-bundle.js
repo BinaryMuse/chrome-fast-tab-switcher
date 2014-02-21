@@ -1,4 +1,112 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*!
+ * string_score.js: String Scoring Algorithm 0.1.20
+ *
+ * http://joshaven.com/string_score
+ * https://github.com/joshaven/string_score
+ *
+ * Copyright (C) 2009-2011 Joshaven Potter <yourtech@gmail.com>
+ * Special thanks to all of the contributors listed here https://github.com/joshaven/string_score
+ * MIT license: http://www.opensource.org/licenses/mit-license.php
+ *
+ * Date: Tue Mar 1 2011
+ * Updated: Tue Jun 11 2013
+*/
+
+/**
+ * Scores a string against another string.
+ *  'Hello World'.score('he');     //=> 0.5931818181818181
+ *  'Hello World'.score('Hello');  //=> 0.7318181818181818
+ */
+module.exports = function(search, word, fuzziness) {
+
+  // If the string is equal to the word, perfect match.
+  if (search == word) return 1;
+
+  //if it's not a perfect match and is empty return 0
+  if( word == "") return 0;
+
+  var runningScore = 0,
+      charScore,
+      finalScore,
+      string = search,
+      lString = string.toLowerCase(),
+      strLength = string.length,
+      lWord = word.toLowerCase(),
+      wordLength = word.length,
+      idxOf,
+      startAt = 0,
+      fuzzies = 1,
+      fuzzyFactor;
+
+  // Cache fuzzyFactor for speed increase
+  if (fuzziness) fuzzyFactor = 1 - fuzziness;
+
+  // Walk through word and add up scores.
+  // Code duplication occurs to prevent checking fuzziness inside for loop
+  if (fuzziness) {
+    for (var i = 0; i < wordLength; ++i) {
+
+      // Find next first case-insensitive match of a character.
+      idxOf = lString.indexOf(lWord[i], startAt);
+
+      if (-1 === idxOf) {
+        fuzzies += fuzzyFactor;
+        continue;
+      } else if (startAt === idxOf) {
+        // Consecutive letter & start-of-string Bonus
+        charScore = 0.7;
+      } else {
+        charScore = 0.1;
+
+        // Acronym Bonus
+        // Weighing Logic: Typing the first character of an acronym is as if you
+        // preceded it with two perfect character matches.
+        if (string[idxOf - 1] === ' ') charScore += 0.8;
+      }
+
+      // Same case bonus.
+      if (string[idxOf] === word[i]) charScore += 0.1;
+
+      // Update scores and startAt position for next round of indexOf
+      runningScore += charScore;
+      startAt = idxOf + 1;
+    }
+  } else {
+    for (var i = 0; i < wordLength; ++i) {
+      // EDIT: skip spaces in the needle
+      if (lWord[i] === ' ') continue;
+
+      idxOf = lString.indexOf(lWord[i], startAt);
+
+      if (-1 === idxOf) {
+        return 0;
+      } else if (startAt === idxOf) {
+        charScore = 0.7;
+      } else {
+        charScore = 0.1;
+        // EDIT: removing this 'start of word' bonus
+        // if (string[idxOf - 1] === ' ') charScore += 0.8;
+      }
+
+      if (string[idxOf] === word[i]) charScore += 0.1;
+
+      runningScore += charScore;
+      startAt = idxOf + 1;
+    }
+  }
+
+  // Reduce penalty for longer strings.
+  finalScore = 0.5 * (runningScore / strLength  + runningScore / wordLength) / fuzzies;
+
+  if ((lWord[0] === lString[0]) && (finalScore < 0.85)) {
+    finalScore += 0.15;
+  }
+
+  return finalScore;
+};
+
+},{}],2:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -53,7 +161,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 (function (process){
 // vim:ts=4:sts=4:sw=4:
 /*!
@@ -1992,14 +2100,14 @@ return Q;
 });
 
 }).call(this,require("/dev_exclusions/src/chrome-tab-switcher/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"))
-},{"/dev_exclusions/src/chrome-tab-switcher/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":1}],3:[function(require,module,exports){
+},{"/dev_exclusions/src/chrome-tab-switcher/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":2}],4:[function(require,module,exports){
 /** @jsx React.DOM */var TabSwitcher = require('./client/tab_switcher.jsx');
 
 /* jshint ignore:start */
 React.renderComponent(TabSwitcher(null ), document.getElementById('switcher'));
 /* jshint ignore:end */
 
-},{"./client/tab_switcher.jsx":11}],4:[function(require,module,exports){
+},{"./client/tab_switcher.jsx":12}],5:[function(require,module,exports){
 /** @jsx React.DOM */module.exports = React.createClass({displayName: 'exports',
   render: function() {
     return (
@@ -2018,7 +2126,7 @@ React.renderComponent(TabSwitcher(null ), document.getElementById('switcher'));
   }
 });
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 var sections = function(haystack, needle, remaining, acc, offset) {
   if (!acc) acc = [];
   if (!remaining) remaining = "";
@@ -2065,7 +2173,7 @@ module.exports = function(haystack, needle, pre, post) {
   return result;
 };
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 var Q = require('q');
 var util = require('../util');
 
@@ -2103,7 +2211,7 @@ module.exports = function(chrome) {
   };
 };
 
-},{"../util":12,"q":2}],7:[function(require,module,exports){
+},{"../util":13,"q":3}],8:[function(require,module,exports){
 /**
  * A tab filter is simply a function that takes a string to filter
  * on and an array of tabs; it will determine if the tab title or URL
@@ -2134,7 +2242,7 @@ module.exports = function(scorer) {
   };
 };
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /** @jsx React.DOM */var stringSpanner = require('./string_spanner');
 
 var MATCH_START = '<span class="match">';
@@ -2183,7 +2291,7 @@ module.exports = React.createClass({displayName: 'exports',
   }
 });
 
-},{"./string_spanner":5}],9:[function(require,module,exports){
+},{"./string_spanner":6}],10:[function(require,module,exports){
 /** @jsx React.DOM */var TabItem = require('./tab_item.jsx');
 
 module.exports = React.createClass({displayName: 'exports',
@@ -2203,7 +2311,7 @@ module.exports = React.createClass({displayName: 'exports',
   }
 });
 
-},{"./tab_item.jsx":8}],10:[function(require,module,exports){
+},{"./tab_item.jsx":9}],11:[function(require,module,exports){
 /** @jsx React.DOM */var KEY_ENTER = 13;
 var KEY_ESC = 27;
 var KEY_UP = 38;
@@ -2248,8 +2356,8 @@ module.exports = React.createClass({displayName: 'exports',
   }
 });
 
-},{}],11:[function(require,module,exports){
-/** @jsx React.DOM */var stringScore = require('../../../vendor/string_score');
+},{}],12:[function(require,module,exports){
+/** @jsx React.DOM */var stringScore = require('../../../lib/string_score');
 var tabBroker = require('./tab_broker')(chrome);
 var tabFilter = require('./tab_filter')(stringScore);
 
@@ -2368,7 +2476,7 @@ module.exports = React.createClass({displayName: 'exports',
   }
 });
 
-},{"../../../vendor/string_score":13,"./status_bar.jsx":4,"./tab_broker":6,"./tab_filter":7,"./tab_list.jsx":9,"./tab_search_box.jsx":10}],12:[function(require,module,exports){
+},{"../../../lib/string_score":1,"./status_bar.jsx":5,"./tab_broker":7,"./tab_filter":8,"./tab_list.jsx":10,"./tab_search_box.jsx":11}],13:[function(require,module,exports){
 var Q = require('q');
 
 module.exports = {
@@ -2387,112 +2495,4 @@ module.exports = {
   }
 };
 
-},{"q":2}],13:[function(require,module,exports){
-/*!
- * string_score.js: String Scoring Algorithm 0.1.20
- *
- * http://joshaven.com/string_score
- * https://github.com/joshaven/string_score
- *
- * Copyright (C) 2009-2011 Joshaven Potter <yourtech@gmail.com>
- * Special thanks to all of the contributors listed here https://github.com/joshaven/string_score
- * MIT license: http://www.opensource.org/licenses/mit-license.php
- *
- * Date: Tue Mar 1 2011
- * Updated: Tue Jun 11 2013
-*/
-
-/**
- * Scores a string against another string.
- *  'Hello World'.score('he');     //=> 0.5931818181818181
- *  'Hello World'.score('Hello');  //=> 0.7318181818181818
- */
-module.exports = function(search, word, fuzziness) {
-
-  // If the string is equal to the word, perfect match.
-  if (search == word) return 1;
-
-  //if it's not a perfect match and is empty return 0
-  if( word == "") return 0;
-
-  var runningScore = 0,
-      charScore,
-      finalScore,
-      string = search,
-      lString = string.toLowerCase(),
-      strLength = string.length,
-      lWord = word.toLowerCase(),
-      wordLength = word.length,
-      idxOf,
-      startAt = 0,
-      fuzzies = 1,
-      fuzzyFactor;
-
-  // Cache fuzzyFactor for speed increase
-  if (fuzziness) fuzzyFactor = 1 - fuzziness;
-
-  // Walk through word and add up scores.
-  // Code duplication occurs to prevent checking fuzziness inside for loop
-  if (fuzziness) {
-    for (var i = 0; i < wordLength; ++i) {
-
-      // Find next first case-insensitive match of a character.
-      idxOf = lString.indexOf(lWord[i], startAt);
-
-      if (-1 === idxOf) {
-        fuzzies += fuzzyFactor;
-        continue;
-      } else if (startAt === idxOf) {
-        // Consecutive letter & start-of-string Bonus
-        charScore = 0.7;
-      } else {
-        charScore = 0.1;
-
-        // Acronym Bonus
-        // Weighing Logic: Typing the first character of an acronym is as if you
-        // preceded it with two perfect character matches.
-        if (string[idxOf - 1] === ' ') charScore += 0.8;
-      }
-
-      // Same case bonus.
-      if (string[idxOf] === word[i]) charScore += 0.1;
-
-      // Update scores and startAt position for next round of indexOf
-      runningScore += charScore;
-      startAt = idxOf + 1;
-    }
-  } else {
-    for (var i = 0; i < wordLength; ++i) {
-      // EDIT: skip spaces in the needle
-      if (lWord[i] === ' ') continue;
-
-      idxOf = lString.indexOf(lWord[i], startAt);
-
-      if (-1 === idxOf) {
-        return 0;
-      } else if (startAt === idxOf) {
-        charScore = 0.7;
-      } else {
-        charScore = 0.1;
-        // EDIT: removing this 'start of word' bonus
-        // if (string[idxOf - 1] === ' ') charScore += 0.8;
-      }
-
-      if (string[idxOf] === word[i]) charScore += 0.1;
-
-      runningScore += charScore;
-      startAt = idxOf + 1;
-    }
-  }
-
-  // Reduce penalty for longer strings.
-  finalScore = 0.5 * (runningScore / strLength  + runningScore / wordLength) / fuzzies;
-
-  if ((lWord[0] === lString[0]) && (finalScore < 0.85)) {
-    finalScore += 0.15;
-  }
-
-  return finalScore;
-};
-
-},{}]},{},[3])
+},{"q":3}]},{},[4])
