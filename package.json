@@ -14,7 +14,8 @@
     "test": "nodeunit test/**/*.js",
     "jshint": "./node_modules/.bin/jshint src/js/**/*.js*",
     "watch": "./scripts/watch.sh",
-    "build": "./scripts/build.sh"
+    "build": "./scripts/build.sh",
+    "package": "npm run jshint && npm test && npm run build && zip package-$(cat package.json | jq -r .version).zip -r build manifest.json"
   },
   "repository": {
     "type": "git",
