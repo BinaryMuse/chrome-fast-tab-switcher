@@ -1,306 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-function EventEmitter() {
-  this._events = this._events || {};
-  this._maxListeners = this._maxListeners || undefined;
-}
-module.exports = EventEmitter;
-
-// Backwards-compat with node 0.10.x
-EventEmitter.EventEmitter = EventEmitter;
-
-EventEmitter.prototype._events = undefined;
-EventEmitter.prototype._maxListeners = undefined;
-
-// By default EventEmitters will print a warning if more than 10 listeners are
-// added to it. This is a useful default which helps finding memory leaks.
-EventEmitter.defaultMaxListeners = 10;
-
-// Obviously not all Emitters should be limited to 10. This function allows
-// that to be increased. Set to zero for unlimited.
-EventEmitter.prototype.setMaxListeners = function(n) {
-  if (!isNumber(n) || n < 0 || isNaN(n))
-    throw TypeError('n must be a positive number');
-  this._maxListeners = n;
-  return this;
-};
-
-EventEmitter.prototype.emit = function(type) {
-  var er, handler, len, args, i, listeners;
-
-  if (!this._events)
-    this._events = {};
-
-  // If there is no 'error' event listener then throw.
-  if (type === 'error') {
-    if (!this._events.error ||
-        (isObject(this._events.error) && !this._events.error.length)) {
-      er = arguments[1];
-      if (er instanceof Error) {
-        throw er; // Unhandled 'error' event
-      } else {
-        throw TypeError('Uncaught, unspecified "error" event.');
-      }
-      return false;
-    }
-  }
-
-  handler = this._events[type];
-
-  if (isUndefined(handler))
-    return false;
-
-  if (isFunction(handler)) {
-    switch (arguments.length) {
-      // fast cases
-      case 1:
-        handler.call(this);
-        break;
-      case 2:
-        handler.call(this, arguments[1]);
-        break;
-      case 3:
-        handler.call(this, arguments[1], arguments[2]);
-        break;
-      // slower
-      default:
-        len = arguments.length;
-        args = new Array(len - 1);
-        for (i = 1; i < len; i++)
-          args[i - 1] = arguments[i];
-        handler.apply(this, args);
-    }
-  } else if (isObject(handler)) {
-    len = arguments.length;
-    args = new Array(len - 1);
-    for (i = 1; i < len; i++)
-      args[i - 1] = arguments[i];
-
-    listeners = handler.slice();
-    len = listeners.length;
-    for (i = 0; i < len; i++)
-      listeners[i].apply(this, args);
-  }
-
-  return true;
-};
-
-EventEmitter.prototype.addListener = function(type, listener) {
-  var m;
-
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  if (!this._events)
-    this._events = {};
-
-  // To avoid recursion in the case that type === "newListener"! Before
-  // adding it to the listeners, first emit "newListener".
-  if (this._events.newListener)
-    this.emit('newListener', type,
-              isFunction(listener.listener) ?
-              listener.listener : listener);
-
-  if (!this._events[type])
-    // Optimize the case of one listener. Don't need the extra array object.
-    this._events[type] = listener;
-  else if (isObject(this._events[type]))
-    // If we've already got an array, just append.
-    this._events[type].push(listener);
-  else
-    // Adding the second element, need to change to array.
-    this._events[type] = [this._events[type], listener];
-
-  // Check for listener leak
-  if (isObject(this._events[type]) && !this._events[type].warned) {
-    var m;
-    if (!isUndefined(this._maxListeners)) {
-      m = this._maxListeners;
-    } else {
-      m = EventEmitter.defaultMaxListeners;
-    }
-
-    if (m && m > 0 && this._events[type].length > m) {
-      this._events[type].warned = true;
-      console.error('(node) warning: possible EventEmitter memory ' +
-                    'leak detected. %d listeners added. ' +
-                    'Use emitter.setMaxListeners() to increase limit.',
-                    this._events[type].length);
-      console.trace();
-    }
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-
-EventEmitter.prototype.once = function(type, listener) {
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  var fired = false;
-
-  function g() {
-    this.removeListener(type, g);
-
-    if (!fired) {
-      fired = true;
-      listener.apply(this, arguments);
-    }
-  }
-
-  g.listener = listener;
-  this.on(type, g);
-
-  return this;
-};
-
-// emits a 'removeListener' event iff the listener was removed
-EventEmitter.prototype.removeListener = function(type, listener) {
-  var list, position, length, i;
-
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  if (!this._events || !this._events[type])
-    return this;
-
-  list = this._events[type];
-  length = list.length;
-  position = -1;
-
-  if (list === listener ||
-      (isFunction(list.listener) && list.listener === listener)) {
-    delete this._events[type];
-    if (this._events.removeListener)
-      this.emit('removeListener', type, listener);
-
-  } else if (isObject(list)) {
-    for (i = length; i-- > 0;) {
-      if (list[i] === listener ||
-          (list[i].listener && list[i].listener === listener)) {
-        position = i;
-        break;
-      }
-    }
-
-    if (position < 0)
-      return this;
-
-    if (list.length === 1) {
-      list.length = 0;
-      delete this._events[type];
-    } else {
-      list.splice(position, 1);
-    }
-
-    if (this._events.removeListener)
-      this.emit('removeListener', type, listener);
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.removeAllListeners = function(type) {
-  var key, listeners;
-
-  if (!this._events)
-    return this;
-
-  // not listening for removeListener, no need to emit
-  if (!this._events.removeListener) {
-    if (arguments.length === 0)
-      this._events = {};
-    else if (this._events[type])
-      delete this._events[type];
-    return this;
-  }
-
-  // emit removeListener for all listeners on all events
-  if (arguments.length === 0) {
-    for (key in this._events) {
-      if (key === 'removeListener') continue;
-      this.removeAllListeners(key);
-    }
-    this.removeAllListeners('removeListener');
-    this._events = {};
-    return this;
-  }
-
-  listeners = this._events[type];
-
-  if (isFunction(listeners)) {
-    this.removeListener(type, listeners);
-  } else {
-    // LIFO order
-    while (listeners.length)
-      this.removeListener(type, listeners[listeners.length - 1]);
-  }
-  delete this._events[type];
-
-  return this;
-};
-
-EventEmitter.prototype.listeners = function(type) {
-  var ret;
-  if (!this._events || !this._events[type])
-    ret = [];
-  else if (isFunction(this._events[type]))
-    ret = [this._events[type]];
-  else
-    ret = this._events[type].slice();
-  return ret;
-};
-
-EventEmitter.listenerCount = function(emitter, type) {
-  var ret;
-  if (!emitter._events || !emitter._events[type])
-    ret = 0;
-  else if (isFunction(emitter._events[type]))
-    ret = 1;
-  else
-    ret = emitter._events[type].length;
-  return ret;
-};
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-
-},{}],2:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -355,7 +53,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],3:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 (function (process){
 // vim:ts=4:sts=4:sw=4:
 /*!
@@ -2294,22 +1992,15 @@ return Q;
 });
 
 }).call(this,require("/dev_exclusions/src/chrome-tab-switcher/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"))
-},{"/dev_exclusions/src/chrome-tab-switcher/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":2}],4:[function(require,module,exports){
+},{"/dev_exclusions/src/chrome-tab-switcher/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":1}],3:[function(require,module,exports){
 /** @jsx React.DOM */var TabSwitcher = require('./client/tab_switcher.jsx');
 
 /* jshint ignore:start */
 React.renderComponent(TabSwitcher(null ), document.getElementById('switcher'));
 /* jshint ignore:end */
 
-},{"./client/tab_switcher.jsx":13}],5:[function(require,module,exports){
-var EventEmitter = require('events').EventEmitter;
-
-module.exports = new EventEmitter();
-
-},{"events":1}],6:[function(require,module,exports){
-/** @jsx React.DOM */var bus = require('./bus');
-
-module.exports = React.createClass({displayName: 'exports',
+},{"./client/tab_switcher.jsx":11}],4:[function(require,module,exports){
+/** @jsx React.DOM */module.exports = React.createClass({displayName: 'exports',
   render: function() {
     return (
       /* jshint ignore:start */
@@ -2323,11 +2014,11 @@ module.exports = React.createClass({displayName: 'exports',
   },
 
   onChange: function(evt) {
-    bus.emit('change:searchAllWindows', evt.target.checked);
+    this.props.changeSearchAllWindows(evt.target.checked);
   }
 });
 
-},{"./bus":5}],7:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 var sections = function(haystack, needle, remaining, acc, offset) {
   if (!acc) acc = [];
   if (!remaining) remaining = "";
@@ -2374,7 +2065,7 @@ module.exports = function(haystack, needle, pre, post) {
   return result;
 };
 
-},{}],8:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 var Q = require('q');
 var util = require('../util');
 
@@ -2412,7 +2103,7 @@ module.exports = function(chrome) {
   };
 };
 
-},{"../util":14,"q":3}],9:[function(require,module,exports){
+},{"../util":12,"q":2}],7:[function(require,module,exports){
 /**
  * A tab filter is simply a function that takes a string to filter
  * on and an array of tabs; it will determine if the tab title or URL
@@ -2443,9 +2134,8 @@ module.exports = function(scorer) {
   };
 };
 
-},{}],10:[function(require,module,exports){
-/** @jsx React.DOM */var bus = require('./bus');
-var stringSpanner = require('./string_spanner');
+},{}],8:[function(require,module,exports){
+/** @jsx React.DOM */var stringSpanner = require('./string_spanner');
 
 var MATCH_START = '<span class="match">';
 var MATCH_END = '</span>';
@@ -2485,15 +2175,15 @@ module.exports = React.createClass({displayName: 'exports',
   },
 
   onMouseEnter: function(evt) {
-    bus.emit('change:selected', this.props.tab);
+    this.props.changeSelected(this.props.tab);
   },
 
   onClick: function(evt) {
-    bus.emit('action:activate');
+    this.props.activateSelected();
   }
 });
 
-},{"./bus":5,"./string_spanner":7}],11:[function(require,module,exports){
+},{"./string_spanner":5}],9:[function(require,module,exports){
 /** @jsx React.DOM */var TabItem = require('./tab_item.jsx');
 
 module.exports = React.createClass({displayName: 'exports',
@@ -2503,7 +2193,9 @@ module.exports = React.createClass({displayName: 'exports',
       React.DOM.ul(null, 
         this.props.tabs.map(function(tab, i) {
           return TabItem( {tab:tab, key:tab.id, filter:this.props.filter,
-            selected:this.props.selectedTab === tab} );
+            selected:this.props.selectedTab === tab,
+            changeSelected:this.props.changeSelected,
+            activateSelected:this.props.activateSelected} );
         }.bind(this))
       )
       /* jshint ignore:end */
@@ -2511,10 +2203,8 @@ module.exports = React.createClass({displayName: 'exports',
   }
 });
 
-},{"./tab_item.jsx":10}],12:[function(require,module,exports){
-/** @jsx React.DOM */var bus = require('./bus');
-
-var KEY_ENTER = 13;
+},{"./tab_item.jsx":8}],10:[function(require,module,exports){
+/** @jsx React.DOM */var KEY_ENTER = 13;
 var KEY_ESC = 27;
 var KEY_UP = 38;
 var KEY_DOWN = 40;
@@ -2536,17 +2226,17 @@ module.exports = React.createClass({displayName: 'exports',
   onKeydown: function(evt) {
     switch (evt.which) {
     case KEY_ESC:
-      bus.emit('exit');
+      this.props.exit();
       break;
     case KEY_ENTER:
-      bus.emit('action:activate');
+      this.props.activateSelected();
       break;
     case KEY_UP:
-      bus.emit('select:previous');
+      this.props.modifySelected(-1);
       evt.preventDefault();
       break;
     case KEY_DOWN:
-      bus.emit('select:next');
+      this.props.modifySelected(1);
       evt.preventDefault();
       break;
     }
@@ -2554,37 +2244,18 @@ module.exports = React.createClass({displayName: 'exports',
 
   onChange: function(evt) {
     if (event.target.value !== this.props.filter)
-      bus.emit('change:filter', event.target.value);
+      this.props.changeFilter(event.target.value);
   }
 });
 
-},{"./bus":5}],13:[function(require,module,exports){
-/** @jsx React.DOM */var bus = require('./bus');
-var stringScore = require('../../../vendor/string_score');
+},{}],11:[function(require,module,exports){
+/** @jsx React.DOM */var stringScore = require('../../../vendor/string_score');
 var tabBroker = require('./tab_broker')(chrome);
 var tabFilter = require('./tab_filter')(stringScore);
 
 var TabSearchBox = require('./tab_search_box.jsx');
 var TabList = require('./tab_list.jsx');
 var StatusBar = require('./status_bar.jsx');
-
-/**
- * TabSwitcher is the main component of our application. It contains
- * all the state, and all other components communicate their intent
- * to change that state via events on the bus (which is a Node.js
- * EventEmitter). All child components receive their data via properties.
- *
- * Bus events:
- * - change:searchAllWindows(boolean) - the 'search all windows'
- *   option was toggled
- * - change:filter(string) - the filter text was changed
- * - change:selected(tab) - the selected tab was changed
- * - action:activate - the user wishes to swich to the currently
- *   selected tab
- * - select:previous - the tab above the selected one should be selected
- * - select:next - the tab below the selected one should be selected
- * - exit - the extension should exit, closing the window
- */
 
 module.exports = React.createClass({displayName: 'exports',
   getInitialState: function() {
@@ -2605,15 +2276,7 @@ module.exports = React.createClass({displayName: 'exports',
   },
 
   componentDidMount: function() {
-    bus.on('change:filter', this.changeFilter);
-    bus.on('change:selected', this.changeSelected);
-    bus.on('change:searchAllWindows', this.changeSearchAllWindows);
-    bus.on('select:previous', this.moveSelection.bind(this, -1));
-    bus.on('select:next', this.moveSelection.bind(this, 1));
-    bus.on('action:activate', this.activateSelection);
-    bus.on('exit', this.close);
     window.onblur = this.close;
-
     this.refreshTabs();
   },
 
@@ -2621,10 +2284,21 @@ module.exports = React.createClass({displayName: 'exports',
     return (
       /* jshint ignore:start */
       React.DOM.div(null, 
-        TabSearchBox( {filter:this.state.filter} ),
-        TabList( {tabs:this.filteredTabs(), filter:this.state.filter,
-          selectedTab:this.getSelected()} ),
-        StatusBar( {searchAllWindows:this.state.searchAllWindows} )
+        TabSearchBox(
+          {filter:this.state.filter,
+          exit:this.close,
+          changeFilter:this.changeFilter,
+          activateSelected:this.activateSelected,
+          modifySelected:this.modifySelected} ),
+        TabList(
+          {tabs:this.filteredTabs(),
+          filter:this.state.filter,
+          selectedTab:this.getSelected(),
+          changeSelected:this.changeSelected,
+          activateSelected:this.activateSelected} ),
+        StatusBar(
+          {searchAllWindows:this.state.searchAllWindows,
+          changeSearchAllWindows:this.changeSearchAllWindows} )
       )
       /* jshint ignore:end */
     );
@@ -2655,11 +2329,11 @@ module.exports = React.createClass({displayName: 'exports',
     return this.state.selected || this.filteredTabs()[0];
   },
 
-  activateSelection: function() {
+  activateSelected: function() {
     var selected = this.getSelected();
     if (selected) {
       tabBroker.switchTo(selected);
-      bus.emit('exit');
+      this.close();
     }
   },
 
@@ -2671,7 +2345,7 @@ module.exports = React.createClass({displayName: 'exports',
     this.setState({selected: tab});
   },
 
-  moveSelection: function(change) {
+  modifySelected: function(change) {
     var filteredTabs = this.filteredTabs();
     if (!filteredTabs.length) return;
 
@@ -2680,7 +2354,7 @@ module.exports = React.createClass({displayName: 'exports',
     if (newIndex < 0) newIndex = 0;
     if (newIndex >= filteredTabs.length) newIndex = filteredTabs.length - 1;
     var newTab = filteredTabs[newIndex];
-    bus.emit('change:selected', newTab);
+    this.changeSelected(newTab);
   },
 
   changeSearchAllWindows: function(value) {
@@ -2694,7 +2368,7 @@ module.exports = React.createClass({displayName: 'exports',
   }
 });
 
-},{"../../../vendor/string_score":15,"./bus":5,"./status_bar.jsx":6,"./tab_broker":8,"./tab_filter":9,"./tab_list.jsx":11,"./tab_search_box.jsx":12}],14:[function(require,module,exports){
+},{"../../../vendor/string_score":13,"./status_bar.jsx":4,"./tab_broker":6,"./tab_filter":7,"./tab_list.jsx":9,"./tab_search_box.jsx":10}],12:[function(require,module,exports){
 var Q = require('q');
 
 module.exports = {
@@ -2713,7 +2387,7 @@ module.exports = {
   }
 };
 
-},{"q":3}],15:[function(require,module,exports){
+},{"q":2}],13:[function(require,module,exports){
 /*!
  * string_score.js: String Scoring Algorithm 0.1.20
  *
@@ -2821,4 +2495,4 @@ module.exports = function(search, word, fuzziness) {
   return finalScore;
 };
 
-},{}]},{},[4])
+},{}]},{},[3])
