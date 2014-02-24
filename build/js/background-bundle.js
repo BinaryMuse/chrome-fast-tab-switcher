@@ -2001,23 +2001,19 @@ var PADDING_TOP = 50;
 var PADDING_BOTTOM = 50;
 var SWITCHER_WIDTH = 600;
 
-// When Chrome shuts down our extension, we want
-// to persist our list of recently activated tabs,
-// so that the next time the user activates the
-// extension, the data will still be there.
-chrome.runtime.onSuspend.addListener(function() {
+// Persist the tab history to local storage every minute.
+setInterval(function() {
   tabHistory.saveRecentTabs();
-});
+}, 60 * 1000);
 
-// Chrome will wake up the extension to call this listener.
+// Chrome will wake up the extension, if necessary, to call this listener.
 chrome.tabs.onActivated.addListener(function(tab) {
   var windowId = tab.windowId;
   var tabId = tab.tabId;
   tabHistory.addRecentTab(windowId, tabId);
 });
 
-// When the user closes a window, remove all that window's
-// history. Keep that local storage clean!
+// When the user closes a window, remove all that window's history.
 chrome.windows.onRemoved.addListener(function(windowId) {
   tabHistory.removeHistoryForWindow(windowId);
 });
