@@ -2045,9 +2045,9 @@ chrome.commands.onCommand.addListener(function(command) {
       // in all windows" enabled, we need to know which was the last
       // non-switcher window that was active.
       windowManager.setLastWindowId(currentWindow.id);
-      var left = Math.max(0, currentWindow.left +
-        Math.round((currentWindow.width - SWITCHER_WIDTH) / 2));
-      var top = Math.max(0, currentWindow.top + PADDING_TOP);
+      var left = currentWindow.left +
+        Math.round((currentWindow.width - SWITCHER_WIDTH) / 2);
+      var top = currentWindow.top + PADDING_TOP;
       var height = Math.max(currentWindow.height - PADDING_TOP - PADDING_BOTTOM, 600);
       var width = SWITCHER_WIDTH;
 
