@@ -2312,7 +2312,8 @@ module.exports = React.createClass({displayName: 'exports',
 });
 
 },{"./tab_item.jsx":9}],11:[function(require,module,exports){
-/** @jsx React.DOM */var KEY_ENTER = 13;
+/** @jsx React.DOM */var KEY_BACKSPACE = 8;
+var KEY_ENTER = 13;
 var KEY_ESC = 27;
 var KEY_UP = 38;
 var KEY_DOWN = 40;
@@ -2320,34 +2321,38 @@ var KEY_DOWN = 40;
 module.exports = React.createClass({displayName: 'exports',
   componentDidUpdate: function() {
     this.refs.input.getDOMNode().focus();
+    Mousetrap.stopCallback = function() { return false; };
+    this.bindKey('esc', this.props.exit);
+    this.bindKey('enter', this.props.activateSelected);
+    this.bindKey('up', this.selectPrevious);
+    this.bindKey('down', this.selectNext);
+  },
+
+  componentWillUnmount: function() {
+    Mousetrap.reset();
   },
 
   render: function() {
     return (
       /* jshint ignore:start */
-      React.DOM.input( {type:"text", ref:"input", autoFocus:"true",
-        onKeyDown:this.onKeydown, onChange:this.onChange} )
+      React.DOM.input( {type:"text", ref:"input", autoFocus:"true", onChange:this.onChange} )
       /* jshint ignore:end */
     );
   },
 
-  onKeydown: function(evt) {
-    switch (evt.which) {
-    case KEY_ESC:
-      this.props.exit();
-      break;
-    case KEY_ENTER:
-      this.props.activateSelected();
-      break;
-    case KEY_UP:
-      this.props.modifySelected(-1);
-      evt.preventDefault();
-      break;
-    case KEY_DOWN:
-      this.props.modifySelected(1);
-      evt.preventDefault();
-      break;
-    }
+  bindKey: function(key, fn) {
+    Mousetrap.bind(key, function(e) {
+      e.preventDefault();
+      fn(e);
+    }.bind(this));
+  },
+
+  selectPrevious: function() {
+    this.props.modifySelected(-1);
+  },
+
+  selectNext: function() {
+    this.props.modifySelected(1);
   },
 
   onChange: function(evt) {
