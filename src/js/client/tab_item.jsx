@@ -33,9 +33,8 @@ module.exports = React.createClass({
     var myBottom = myTop + node.offsetHeight;
     var containerScrollTop = this.props.containerScrollTop;
     var containerScrollBottom = containerScrollTop + this.props.containerHeight;
-    if (myTop < containerScrollTop) this.props.setContainerScrollTop(myTop);
 
-    var myBottom = myTop + node.offsetHeight;
+    if (myTop < containerScrollTop) this.props.setContainerScrollTop(myTop);
     if (myBottom > containerScrollBottom)
       this.props.setContainerScrollTop(containerScrollTop + myBottom - containerScrollBottom);
   },

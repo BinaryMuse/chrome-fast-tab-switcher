@@ -20,7 +20,7 @@ module.exports = React.createClass({
   },
 
   toggleSearchAllWindows: function() {
-    this.props.changeSearchAllWindows(!this.props.searchAllWindows)
+    this.props.changeSearchAllWindows(!this.props.searchAllWindows);
   },
 
   onChange: function(evt) {

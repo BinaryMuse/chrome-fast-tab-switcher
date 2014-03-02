@@ -12,6 +12,6 @@ module.exports = {
   },
 
   componentWillUnmount: function() {
-    this._boundKeys.map(Mousetrap.unbind)
+    this._boundKeys.map(Mousetrap.unbind);
   }
 };

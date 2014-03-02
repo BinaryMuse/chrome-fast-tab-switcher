@@ -2123,7 +2123,7 @@ module.exports = {
   },
 
   componentWillUnmount: function() {
-    this._boundKeys.map(Mousetrap.unbind)
+    this._boundKeys.map(Mousetrap.unbind);
   }
 };
 
@@ -2150,7 +2150,7 @@ module.exports = React.createClass({displayName: 'exports',
   },
 
   toggleSearchAllWindows: function() {
-    this.props.changeSearchAllWindows(!this.props.searchAllWindows)
+    this.props.changeSearchAllWindows(!this.props.searchAllWindows);
   },
 
   onChange: function(evt) {
@@ -2310,9 +2310,8 @@ module.exports = React.createClass({displayName: 'exports',
     var myBottom = myTop + node.offsetHeight;
     var containerScrollTop = this.props.containerScrollTop;
     var containerScrollBottom = containerScrollTop + this.props.containerHeight;
-    if (myTop < containerScrollTop) this.props.setContainerScrollTop(myTop);
 
-    var myBottom = myTop + node.offsetHeight;
+    if (myTop < containerScrollTop) this.props.setContainerScrollTop(myTop);
     if (myBottom > containerScrollBottom)
       this.props.setContainerScrollTop(containerScrollTop + myBottom - containerScrollBottom);
   },
