@@ -2101,24 +2101,56 @@ return Q;
 
 }).call(this,require("/dev_exclusions/src/chrome-tab-switcher/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"))
 },{"/dev_exclusions/src/chrome-tab-switcher/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":2}],4:[function(require,module,exports){
-/** @jsx React.DOM */var TabSwitcher = require('./client/tab_switcher.jsx');
+/** @jsx React.DOM */Mousetrap.stopCallback = function() { return false; };
+var TabSwitcher = require('./client/tab_switcher.jsx');
 
 /* jshint ignore:start */
 React.renderComponent(TabSwitcher(null ), document.getElementById('switcher'));
 /* jshint ignore:end */
 
-},{"./client/tab_switcher.jsx":12}],5:[function(require,module,exports){
-/** @jsx React.DOM */module.exports = React.createClass({displayName: 'exports',
+},{"./client/tab_switcher.jsx":13}],5:[function(require,module,exports){
+module.exports = {
+  componentWillMount: function() {
+    this._boundKeys = [];
+  },
+
+  bindKey: function(key, fn) {
+    this._boundKeys.push(key);
+    Mousetrap.bind(key, function(evt) {
+      evt.preventDefault();
+      fn(evt);
+    }.bind(this));
+  },
+
+  componentWillUnmount: function() {
+    this._boundKeys.map(Mousetrap.unbind)
+  }
+};
+
+},{}],6:[function(require,module,exports){
+/** @jsx React.DOM */var KeybindMixin = require('./keybind_mixin');
+
+module.exports = React.createClass({displayName: 'exports',
+  mixins: [KeybindMixin],
+
+  componentDidMount: function() {
+    this.bindKey(['alt+a'], this.toggleSearchAllWindows);
+  },
+
   render: function() {
     return (
       /* jshint ignore:start */
       React.DOM.label( {className:"status"}, 
         React.DOM.input( {type:"checkbox", checked:this.props.searchAllWindows,
           onChange:this.onChange} ),
-        React.DOM.span(null, "Show tabs from all windows")
+        React.DOM.span(null, "Show tabs from ", React.DOM.u(null, "a"),"ll windows")
       )
       /* jshint ignore:end */
     );
+  },
+
+  toggleSearchAllWindows: function() {
+    this.props.changeSearchAllWindows(!this.props.searchAllWindows)
   },
 
   onChange: function(evt) {
@@ -2126,7 +2158,7 @@ React.renderComponent(TabSwitcher(null ), document.getElementById('switcher'));
   }
 });
 
-},{}],6:[function(require,module,exports){
+},{"./keybind_mixin":5}],7:[function(require,module,exports){
 var sections = function(haystack, needle, remaining, acc, offset) {
   if (!acc) acc = [];
   if (!remaining) remaining = "";
@@ -2173,7 +2205,7 @@ module.exports = function(haystack, needle, pre, post) {
   return result;
 };
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var Q = require('q');
 var util = require('../util');
 
@@ -2211,7 +2243,7 @@ module.exports = function(chrome) {
   };
 };
 
-},{"../util":13,"q":3}],8:[function(require,module,exports){
+},{"../util":14,"q":3}],9:[function(require,module,exports){
 /**
  * A tab filter is simply a function that takes a string to filter
  * on and an array of tabs; it will determine if the tab title or URL
@@ -2242,7 +2274,7 @@ module.exports = function(scorer) {
   };
 };
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /** @jsx React.DOM */var stringSpanner = require('./string_spanner');
 
 var MATCH_START = '<span class="match">';
@@ -2291,7 +2323,7 @@ module.exports = React.createClass({displayName: 'exports',
   }
 });
 
-},{"./string_spanner":6}],10:[function(require,module,exports){
+},{"./string_spanner":7}],11:[function(require,module,exports){
 /** @jsx React.DOM */var TabItem = require('./tab_item.jsx');
 
 module.exports = React.createClass({displayName: 'exports',
@@ -2311,17 +2343,23 @@ module.exports = React.createClass({displayName: 'exports',
   }
 });
 
-},{"./tab_item.jsx":9}],11:[function(require,module,exports){
-/** @jsx React.DOM */var KEY_BACKSPACE = 8;
+},{"./tab_item.jsx":10}],12:[function(require,module,exports){
+/** @jsx React.DOM */var KeybindMixin = require('./keybind_mixin');
+
+var KEY_BACKSPACE = 8;
 var KEY_ENTER = 13;
 var KEY_ESC = 27;
 var KEY_UP = 38;
 var KEY_DOWN = 40;
 
 module.exports = React.createClass({displayName: 'exports',
+  mixins: [KeybindMixin],
+
   componentDidUpdate: function() {
     this.refs.input.getDOMNode().focus();
-    Mousetrap.stopCallback = function() { return false; };
+  },
+
+  componentDidMount: function() {
     this.bindKey('esc', this.props.exit);
     this.bindKey('enter', this.props.activateSelected);
     this.bindKey('up', this.selectPrevious);
@@ -2340,13 +2378,6 @@ module.exports = React.createClass({displayName: 'exports',
     );
   },
 
-  bindKey: function(key, fn) {
-    Mousetrap.bind(key, function(e) {
-      e.preventDefault();
-      fn(e);
-    }.bind(this));
-  },
-
   selectPrevious: function() {
     this.props.modifySelected(-1);
   },
@@ -2361,7 +2392,7 @@ module.exports = React.createClass({displayName: 'exports',
   }
 });
 
-},{}],12:[function(require,module,exports){
+},{"./keybind_mixin":5}],13:[function(require,module,exports){
 /** @jsx React.DOM */var stringScore = require('../../../lib/string_score');
 var tabBroker = require('./tab_broker')(chrome);
 var tabFilter = require('./tab_filter')(stringScore);
@@ -2481,7 +2512,7 @@ module.exports = React.createClass({displayName: 'exports',
   }
 });
 
-},{"../../../lib/string_score":1,"./status_bar.jsx":5,"./tab_broker":7,"./tab_filter":8,"./tab_list.jsx":10,"./tab_search_box.jsx":11}],13:[function(require,module,exports){
+},{"../../../lib/string_score":1,"./status_bar.jsx":6,"./tab_broker":8,"./tab_filter":9,"./tab_list.jsx":11,"./tab_search_box.jsx":12}],14:[function(require,module,exports){
 var Q = require('q');
 
 module.exports = {

@@ -14,6 +14,8 @@ Usage
 
 The default keyboard shortcut is `Ctrl+Shift+Comma` (`Cmd+Shift+Comma` on OS X). You can, and may need to, adjust your keyboard shortcuts via the link at the very bottom of your Chrome extensions page at `chrome://extensions`.
 
+`Alt+a` (`Option+a` on OS X) can be used to toggle the "Show tabs from all windows" option.
+
 Installing from Source
 ----------------------
 

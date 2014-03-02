@@ -1,3 +1,4 @@
+Mousetrap.stopCallback = function() { return false; };
 var TabSwitcher = require('./client/tab_switcher.jsx');
 
 /* jshint ignore:start */
