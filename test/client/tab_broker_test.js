@@ -43,3 +43,24 @@ exports.switchTo = {
     test.done();
   }
 };
+
+exports.close = {
+  setUp: function(cb) {
+    var chrome = this.chrome = {
+      runtime: {
+        sendMessage: function(opts) {
+          if (!chrome.runtime.sendMessage.calls) chrome.runtime.sendMessage.calls = [];
+          chrome.runtime.sendMessage.calls.push(opts)
+        }
+      }
+    };
+    this.api = tabBroker(this.chrome);
+    cb();
+  },
+
+  sendsMessageToCloseTab: function(test) {
+    this.api.close({id: 123});
+    test.deepEqual(this.chrome.runtime.sendMessage.calls[0], {closeTabId: 123});
+    test.done();
+  }
+}

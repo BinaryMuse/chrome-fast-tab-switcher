@@ -114,6 +114,31 @@ exports.switchToTab = {
   }
 };
 
+exports.closeTab = {
+  setUp: function(cb) {
+    var chrome = {
+      tabs: {
+        remove: function(tabId, callback) {
+          if (!chrome.tabs.remove.calls) chrome.tabs.remove.calls = [];
+          chrome.tabs.remove.calls.push([tabId]);
+          callback();
+        }
+      }
+    };
+    this.chrome = chrome;
+
+    api = windowManager(chrome);
+    cb();
+  },
+
+  removesTab: function(test) {
+    api.closeTab(10).then(function() {
+      test.deepEqual(this.chrome.tabs.remove.calls, [[10]]);
+      test.done();
+    }.bind(this));
+  }
+};
+
 exports.queryTabsInCurrentWindow = {
   setUp: function(cb) {
     var chrome = {

@@ -38,13 +38,15 @@ module.exports = React.createClass({
           exit={this.close}
           changeFilter={this.changeFilter}
           activateSelected={this.activateSelected}
-          modifySelected={this.modifySelected} />
+          modifySelected={this.modifySelected}
+          closeSelected={this.closeSelected} />
         <TabList
           tabs={this.filteredTabs()}
           filter={this.state.filter}
           selectedTab={this.getSelected()}
           changeSelected={this.changeSelected}
-          activateSelected={this.activateSelected} />
+          activateSelected={this.activateSelected}
+          closeSelected={this.closeSelected} />
         <StatusBar
           searchAllWindows={this.state.searchAllWindows}
           changeSearchAllWindows={this.changeSearchAllWindows} />
@@ -86,6 +88,23 @@ module.exports = React.createClass({
     }
   },
 
+  closeSelected: function() {
+    var selected = this.getSelected();
+    var index = this.state.tabs.indexOf(selected);
+
+    if (selected) {
+      this.modifySelected(1) || this.modifySelected(-1);
+    }
+
+    if (index > -1) {
+      var tabs = this.state.tabs;
+      tabs.splice(index, 1);
+      this.setState({tabs: tabs});
+    }
+
+    tabBroker.close(selected);
+  },
+
   changeFilter: function(newFilter) {
     this.setState({filter: newFilter, selected: null});
   },
@@ -100,10 +119,11 @@ module.exports = React.createClass({
 
     var currentIndex = filteredTabs.indexOf(this.getSelected());
     var newIndex = currentIndex + change;
-    if (newIndex < 0) newIndex = 0;
-    if (newIndex >= filteredTabs.length) newIndex = filteredTabs.length - 1;
+    if (newIndex < 0) return false;
+    if (newIndex >= filteredTabs.length) return false;
     var newTab = filteredTabs[newIndex];
     this.changeSelected(newTab);
+    return true;
   },
 
   changeSearchAllWindows: function(value) {

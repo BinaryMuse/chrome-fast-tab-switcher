@@ -31,6 +31,10 @@ module.exports = function(chrome) {
 
     switchTo: function(tab) {
       chrome.runtime.sendMessage({switchToTabId: tab.id});
+    },
+
+    close: function(tab) {
+      chrome.runtime.sendMessage({closeTabId: tab.id});
     }
   };
 };

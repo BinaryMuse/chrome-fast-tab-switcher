@@ -66,6 +66,10 @@ module.exports = function(chrome) {
       return this.getTabInfo(tabId).then(function(tab) {
         if (tab) chrome.windows.update(tab.windowId, {focused: true});
       });
+    },
+
+    closeTab: function(tabId) {
+      return util.pcall(chrome.tabs.remove, tabId);
     }
   };
 };

@@ -1,4 +1,5 @@
 <!doctype html>
+<meta charset="utf-8">
 
 <title>Fast Tab Switcher</title>
 <style>
@@ -50,6 +51,24 @@
     padding: 7px;
     border-bottom: 1px solid #333;
     cursor: pointer;
+    position: relative;
+  }
+
+  ul li .close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 10px;
+    font-size: 30px;
+    cursor: pointer;
+    height: 100%;
+    line-height: 200%;
+    transition: opacity 0.5s;
+    opacity: 0.3;
+  }
+
+  ul li .close-button:hover {
+    opacity: 1;
   }
 
   ul li.selected {
@@ -68,6 +87,13 @@
   ul li .match {
     text-decoration: underline;
     font-weight: bold;
+  }
+
+  ul li .url, ul li .title {
+    text-overflow: ellipsis;
+    width: calc(100% - 50px);
+    display: inline-block;
+    overflow: hidden;
   }
 
   ul li .url {

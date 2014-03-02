@@ -10,6 +10,7 @@ module.exports = React.createClass({
             selected={this.props.selectedTab === tab}
             changeSelected={this.props.changeSelected}
             activateSelected={this.props.activateSelected}
+            closeSelected={this.props.closeSelected}
             containerScrollTop={this.getScrollTop()}
             containerHeight={this.getHeight()}
             setContainerScrollTop={this.setScrollTop} />;

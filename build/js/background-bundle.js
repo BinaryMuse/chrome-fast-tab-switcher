@@ -2073,6 +2073,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, respond) {
     // messaging channel open, thus allowing us to call `respond`.
     return true;
   }
+
+  if (request.closeTabId) {
+    windowManager.closeTab(request.closeTabId);
+  }
 });
 
 },{"./background/tab_history":4,"./background/window_manager":5,"q":2}],4:[function(require,module,exports){
@@ -2222,6 +2226,10 @@ module.exports = function(chrome) {
       return this.getTabInfo(tabId).then(function(tab) {
         if (tab) chrome.windows.update(tab.windowId, {focused: true});
       });
+    },
+
+    closeTab: function(tabId) {
+      return util.pcall(chrome.tabs.remove, tabId);
     }
   };
 };

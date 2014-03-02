@@ -78,4 +78,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, respond) {
     // messaging channel open, thus allowing us to call `respond`.
     return true;
   }
+
+  if (request.closeTabId) {
+    windowManager.closeTab(request.closeTabId);
+  }
 });
