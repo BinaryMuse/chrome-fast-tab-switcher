@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Fast Tab Switcher",
   "description": "Quickly switch to other open tabs with just your keyboard",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "icons": {
     "16": "build/img/icon16.png",
     "48": "build/img/icon48.png",
