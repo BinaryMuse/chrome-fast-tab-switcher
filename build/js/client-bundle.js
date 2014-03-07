@@ -2286,11 +2286,11 @@ var MATCH_END = '</span>';
 
 module.exports = React.createClass({displayName: 'exports',
   render: function() {
+    /* jshint ignore:start */
     var closeButton = this.props.selected ?
       React.DOM.div( {className:"close-button", onClick:this.onClickCloseButton}, "×") : null;
 
     return (
-      /* jshint ignore:start */
       React.DOM.li( {className:this.className(),
         onClick:this.onClick, onMouseEnter:this.onMouseEnter}, 
         React.DOM.div(null, 
@@ -2302,8 +2302,8 @@ module.exports = React.createClass({displayName: 'exports',
           dangerouslySetInnerHTML:{__html: this.tabUrl(this.props.tab)}} ),
         closeButton
       )
-      /* jshint ignore:end */
     );
+    /* jshint ignore:end */
   },
 
   componentDidUpdate: function() {
@@ -2532,6 +2532,7 @@ module.exports = React.createClass({displayName: 'exports',
   },
 
   closeSelected: function() {
+    /* jshint expr: true */
     var selected = this.getSelected();
     var index = this.state.tabs.indexOf(selected);
 
