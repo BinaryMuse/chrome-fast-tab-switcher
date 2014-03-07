@@ -5,11 +5,11 @@ var MATCH_END = '</span>';
 
 module.exports = React.createClass({
   render: function() {
+    /* jshint ignore:start */
     var closeButton = this.props.selected ?
       <div className='close-button' onClick={this.onClickCloseButton}>&times;</div> : null;
 
     return (
-      /* jshint ignore:start */
       <li className={this.className()}
         onClick={this.onClick} onMouseEnter={this.onMouseEnter}>
         <div>
@@ -21,8 +21,8 @@ module.exports = React.createClass({
           dangerouslySetInnerHTML={{__html: this.tabUrl(this.props.tab)}} />
         {closeButton}
       </li>
-      /* jshint ignore:end */
     );
+    /* jshint ignore:end */
   },
 
   componentDidUpdate: function() {

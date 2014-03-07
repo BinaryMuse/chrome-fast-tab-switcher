@@ -89,6 +89,7 @@ module.exports = React.createClass({
   },
 
   closeSelected: function() {
+    /* jshint expr: true */
     var selected = this.getSelected();
     var index = this.state.tabs.indexOf(selected);
 
