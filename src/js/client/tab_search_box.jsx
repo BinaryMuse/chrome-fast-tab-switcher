@@ -1,11 +1,5 @@
 var KeybindMixin = require('./keybind_mixin');
 
-var KEY_BACKSPACE = 8;
-var KEY_ENTER = 13;
-var KEY_ESC = 27;
-var KEY_UP = 38;
-var KEY_DOWN = 40;
-
 module.exports = React.createClass({
   mixins: [KeybindMixin],
 
@@ -16,7 +10,6 @@ module.exports = React.createClass({
   componentDidMount: function() {
     this.bindKey('esc', this.props.exit);
     this.bindKey('enter', this.props.activateSelected);
-    this.bindKey('alt+backspace', this.props.closeSelected);
     this.bindKey('up', this.selectPrevious);
     this.bindKey('down', this.selectNext);
   },
