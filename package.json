@@ -4,7 +4,7 @@
   "description": "Chrome extension to quickly switch to other open tabs with just your keyboard",
   "devDependencies": {
     "watchify": "~0.6.1",
-    "browserify": "~3.30.0",
+    "browserify": "~13.0.0",
     "nodeunit": "~0.8.5",
     "q": "~1.0.0",
     "jshint": "~2.4.3",
